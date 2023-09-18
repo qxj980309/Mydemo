@@ -1,0 +1,60 @@
+server:
+    port: 8090
+    servlet:
+        encoding:
+            charset: UTF-8    #设置 Tomcat 编码格式
+spring:
+    datasource:
+        # Type 设置使用何种类型的数据库连接池
+        type: com.alibaba.druid.pool.DruidDataSource
+        #mysql的配置加载驱动类信息
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        #mysql的连接信息
+        url: jdbc:mysql://localhost:3306/demo?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+        #用户名
+        username: root
+        #密码
+        password: 123456
+        dbcp2:
+            min-idle: 5                                           # 数据库连接池的最小维持连接数
+            initial-size: 5                                       # 初始化连接数
+            max-total: 5                                          # 最大连接数
+            max-wait-millis: 200                    # 等待连接获取的最大超时时间
+    # c3p0连接池  com.mchange.v2.c3p0.ComboPooledDataSource
+
+    #redis配置
+    #redis:
+    #database: 0       #几号数据库
+    #host: 127.0.0.1   # Redis服务器地址
+    #port: 6379        # Redis服务器连接端口
+    #password:          # Redis服务器连接密码（默认为空）
+    #jedis:            #基于java语言的redis客户端，集成了redis 的命令操作，提供了连接池管理。
+    #pool:
+    #max-active: 8    # 连接池最大连接数（使用负值表示没有限制）
+    #max-wait: -1     # 连接池最大阻塞等待时间（使用负值表示没有限制）
+    #max-idle: 8      # 连接池中的最大空闲连接
+    #min-idle: 0      # 连接池中的最小空闲连接
+    #timeout: 2000ms  # 连接超时时间（毫秒）默认是2000ms
+    thymeleaf:
+        #缓存关闭
+        cache: false
+    freemarker:
+        ccheckTemplateLocation: false
+    mybatis-plus:
+        #加载 mapper.xml 文件到容器中
+        mapper-locations: classpath:mapper/*.xml
+        #configuration:
+         #   log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+        #开启驼峰映射
+        #map-underscore-to-camel-case: false
+    # sql日志的打印 日志级别可以是TRACE、DEBUG、INFO、WARN、ERROR、FATAL、OFF中的一种
+    #日志生成方式效果配置文件
+    #默认该目录下会生成spring.log logging.file.path 和 logging.file.name 2选1，如果都配置，以后者为准
+    logging:
+        config: classpath:logback-spring.xml
+        file:
+            path: logs
+        pattern:
+            console: '%red(%d{yyyy-MM-dd HH:mm:ss}) %green([%thread]) %highlight(%-5level) %boldMagenta(%logger{10}) - %cyan(%msg%n)'
+            file: '%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread] %logger : %msg%n'
+

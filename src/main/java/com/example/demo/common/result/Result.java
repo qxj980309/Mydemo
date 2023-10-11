@@ -54,9 +54,11 @@ public class Result<T> implements Serializable {
     }
     public static Result ok(Integer code) {
         return new Result(code);
+//        return new Result(Enum.SUCCESS.getCode());
     }
 
     public static Result ok(Integer code,String msg) {
+//        return new Result(Enum.SUCCESS.getCode(),Enum.SUCCESS.getMsg(),null);
         return new Result(code, msg, null);
     }
 

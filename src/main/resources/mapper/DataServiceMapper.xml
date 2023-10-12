@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.DataServiceMapper">
+    <select id="selectData" resultType="com.example.demo.entity.DataPo">
+        select id , project_id,send_sys_code,acc_sys_code,name,tx_code, date, count
+        from td_data_statistic
+        <where>
+            <if test="sendSysCode != null and sendSysCode != ''">
+                send_sys_code = #{sendSysCode}
+            </if>
+            <if test="accSysCode and accSysCode != ''">
+                AND acc_sys_code = #{accSysCode}
+            </if>
+            <if test="date!=null and date != ''">
+                AND date = #{date}
+            </if>
+            <if test="">
+
+            </if>
+        </where>
+    </select>
+</mapper>

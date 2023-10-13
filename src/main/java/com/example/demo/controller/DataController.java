@@ -9,6 +9,7 @@ import com.example.demo.service.DataService;
 import io.swagger.annotations.Api;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.annotation.Resource;
 
 @RestController
-@RequestMapping
+@RequestMapping("/data")
 @Api(tags = "访问数据统计")
 public class DataController {
     @Resource
@@ -25,10 +26,12 @@ public class DataController {
     private static final Logger log = LoggerFactory.getLogger(DataController.class);
 
     /*分页查询多条接口访问数据*/
+    @GetMapping("/api")
     Result<IPage<DataVo>> selectApi(SearchVo searchVo, @RequestParam Integer pageIndex, @RequestParam Integer pageSize){
         return Result.ok(dataService.selectApi(searchVo, pageIndex, pageSize));
     }
     /*分页查询多条请求-接收方访问数据*/
+    @GetMapping("/sys")
     Result<IPage<DataVo>> selectSys(SearchVo searchVo, @RequestParam Integer pageIndex, @RequestParam Integer pageSize) {
         return Result.ok(dataService.selectSys(searchVo, pageIndex, pageSize));
     }

@@ -13,6 +13,7 @@ public class SearchVo {
     private String name; // 接口名称
     private String txCode; // 接口编号
     private String dimension; // 时间维度  nian
-    private String startDate; //开始时间   20231012
-    private String endDate; // 结束时间    20231013
+//    private String startDate; //开始时间   20231012
+//    private String endDate; // 结束时间    20231013
+    private String date; //开始时间-开始时间
 }

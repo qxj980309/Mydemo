@@ -5,6 +5,10 @@ import cn.hutool.json.XML;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import java.math.BigInteger;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Random;
 
 @SpringBootTest
@@ -99,6 +103,41 @@ class DemoApplicationTests {
         System.out.println(str4.substring(1,3));//返回一个新的字符串，它是字符串从beginIndex开始截取到endIndex(不包含)的子字符串。
         System.out.println(str4);
 
+    }
+
+    @Test
+    void test3(){
+//        String string = "2023-10-31 00:99:00";
+//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+//        try {
+//            Date date = sdf.parse(string);
+//            System.out.println(date);
+//            Date date1 = new SimpleDateFormat("yyyy-MM-dd").parse("2020-11-01 08:30:20");
+//            System.out.println(date1);
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
+//        String date = "2022-03-13-2023-10-15";
+//        String date1 = date.substring(0,10);
+//        System.out.println(date1);
+//        String date2 = date.substring(11,date.length());
+//        System.out.println(date2);
+//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
+//        try {
+//            Date date3 = sdf.parse(date1);
+//            System.out.println(date3);
+//            Date date4 = sdf.parse(date2);
+//            System.out.println(date4);
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
+        String substring = "2022";
+        int year = Integer.parseInt(substring);
+        Calendar calendar = Calendar.getInstance();
+        calendar.clear();
+        calendar.set(Calendar.YEAR, year);
+        Date currYearFirst = calendar.getTime();
+        System.out.println(currYearFirst);
     }
 
 }

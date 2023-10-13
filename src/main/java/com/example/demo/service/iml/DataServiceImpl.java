@@ -2,7 +2,6 @@ package com.example.demo.service.iml;
 
 import cn.hutool.core.date.DateTime;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.demo.entity.DataPo;
@@ -11,14 +10,13 @@ import com.example.demo.entity.vo.SearchVo;
 import com.example.demo.mapper.DataServiceMapper;
 import com.example.demo.service.DataService;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -33,7 +31,6 @@ public class DataServiceImpl implements DataService {
     @Resource
     private DataServiceMapper dataServiceMapper;
 
-    private Date statDate = null, endDate = null;
     private String pattern = "yyyy-MM-dd";
 
     @Override
@@ -43,29 +40,31 @@ public class DataServiceImpl implements DataService {
 
     @Override
     public IPage<DataVo> selectSys(SearchVo searchVo, Integer pageIndex, Integer pageSize) {
-        DataPo dataPo = new DataPo();
+        Date startDate = null, endDate = null;
         QueryWrapper<DataPo> wrapper = new QueryWrapper<>();
-        wrapper.eq("send_sys_code", searchVo.getSendSysCode());
-        wrapper.eq("acc_sys_code", searchVo.getAccSysCode());
-
+        wrapper.eq(StringUtils.isNotEmpty(searchVo.getSendSysCode()),"send_sys_code",searchVo.getSendSysCode());
+        wrapper.eq(StringUtils.isNotEmpty(searchVo.getAccSysCode()),"acc_sys_code",searchVo.getAccSysCode());
         String dimension = searchVo.getDimension();
-        //1 判断时间是否都有值
-        if (StringUtils.isNotEmpty(searchVo.getEndDate()) && StringUtils.isNotEmpty(searchVo.getStartDate())) {
-            statDate = getDate(searchVo.getStartDate(),pattern);
-            endDate = getDate(searchVo.getEndDate(),pattern);
-            wrapper.between("date", statDate, endDate);
-        } else {
-            switch (dimension) {
-                case "年":
-                    if (StringUtils.isEmpty(searchVo.getStartDate())) {
-                        statDate = getYearFirstDay();
-                    }
-                    if (StringUtils.isEmpty(searchVo.getEndDate())) {
-
-                    }
+        if (StringUtils.isNotEmpty(dimension)){
+            //1 判断时间维度是哪种类型
+            switch (dimension){
+                case "01":
+                    startDate =getFirstDate(searchVo.getDate().substring(0,4),pattern);
+                    endDate = getDate(searchVo.getDate().substring(11,searchVo.getDate().length()),pattern);
+                    wrapper.between("date",startDate,endDate);
+                    break;
+                case "02":
+                    startDate =getFirstDate(searchVo.getDate().substring(0,7),pattern);
+                    endDate = getDate(searchVo.getDate().substring(11,searchVo.getDate().length()),pattern);
+                    wrapper.between("date",startDate,endDate);
+                    break;
+                case "03":
+                    startDate =getDate(searchVo.getDate().substring(0,10),pattern);
+                    endDate = getDate(searchVo.getDate().substring(11,searchVo.getDate().length()),pattern);
+                    wrapper.between("date",startDate,endDate);
+                    break;
             }
         }
-        Page<DataVo> dataVoPage = new Page<>();
         //2 获取数据库中数据
         Page<DataPo> dataPoPage = dataServiceMapper.selectPage(new Page<>(pageIndex, pageSize), wrapper);
         List<DataPo> records = dataPoPage.getRecords();
@@ -75,8 +74,20 @@ public class DataServiceImpl implements DataService {
             dataVos.add(new DataVo(record.getId(), record.getProjectId(), record.getSendSysCode(), record.getAccSysCode(), record.getName()
                     , record.getTxCode(), record.getDate().toString(), searchVo.getDimension(), record.getCount()));
         }
+        Page<DataVo> dataVoPage = new Page<>();
+//        BeanUtils.copyProperties(records,dataVoPage);
         buildResultPage(dataVoPage, dataPoPage, dataVos);
         return dataVoPage;
+    }
+
+
+    private Date getFirstDate(String substring, String pattern) {
+        int year = Integer.parseInt(substring);
+        Calendar calendar = Calendar.getInstance();
+        calendar.clear();
+        calendar.set(Calendar.YEAR, year);
+        Date currYearFirst = calendar.getTime();
+        return currYearFirst;
     }
 
     private void buildResultPage(Page<DataVo> dataVoPage, Page<DataPo> dataPoPage, ArrayList<DataVo> dataVos) {
@@ -87,24 +98,15 @@ public class DataServiceImpl implements DataService {
         dataVoPage.setPages(dataPoPage.getPages());
     }
 
-
-    private Date getYearFirstDay(){
-        Date currentDate = new Date();
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(currentDate);
-        calendar.set(Calendar.MONTH, 0); // 设置月份为1月
-        calendar.set(Calendar.DAY_OF_MONTH, 1); // 设置日期为1号
-        return calendar.getTime();
-    }
-
     private Date getDate(String dateString, String pattern) {
         SimpleDateFormat sdf = new SimpleDateFormat(pattern);
-        Date parse = null;
+        Date date = null;
         try {
-            parse = sdf.parse(dateString);
+            date = sdf.parse(dateString);
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        return parse;
+        return date;
     }
+
 }

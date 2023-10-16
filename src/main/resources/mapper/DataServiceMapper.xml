@@ -14,8 +14,8 @@
         <result property="count" column="count"/>
     </resultMap>
 
-    <select id="selectData" resultType="com.example.demo.entity.DataPo">
-        select id , project_id,send_sys_code,acc_sys_code,name,tx_code, date, count
+    <select id="selectData" resultType="com.example.demo.entity.vo.DataVo">
+        select id , project_id,send_sys_code,acc_sys_code,name,tx_code, SUM(count) as count
         from td_data_statistic
         <where>
             <if test="sendSysCode != null and sendSysCode != ''">
@@ -25,15 +25,9 @@
                 AND acc_sys_code = #{accSysCode}
             </if>
             <if test="date!=null and date != ''">
-                AND date = #{date}
+                AND date between #{startDate} ANd #{endDate}
             </if>
+            Group By project_id,send_sys_code,tx_code,acc_sys_code,`name`;
         </where>
-    </select>
-
-    <select id="selectPageApi" resultType="com.example.demo.entity.vo.DataVo">
-
-    </select>
-    <select id="selectPageSys" resultType="com.example.demo.entity.vo.DataVo">
-
     </select>
 </mapper>

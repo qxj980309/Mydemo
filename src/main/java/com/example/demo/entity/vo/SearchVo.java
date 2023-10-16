@@ -15,5 +15,5 @@ public class SearchVo {
     private String dimension; // 时间维度  nian
 //    private String startDate; //开始时间   20231012
 //    private String endDate; // 结束时间    20231013
-    private String date; //开始时间-开始时间
+    private String date; //开始时间-开始时间  2022-07-14-2023-10-19
 }

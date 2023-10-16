@@ -1,9 +1,11 @@
 package com.example.demo.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 
@@ -20,4 +22,7 @@ public class DataPo {
     @ApiModelProperty(value = "yyyy-MM-dd")
     private LocalDate date; // 日期
     private Integer count; //访问次数
+
+    @TableField(exist = false)
+    private String monthDate;
 }

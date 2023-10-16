@@ -23,7 +23,6 @@ import java.util.Date;
 import java.util.List;
 
 
-
 @Service
 @Transactional
 public class DataServiceImpl implements DataService {
@@ -40,73 +39,107 @@ public class DataServiceImpl implements DataService {
 
     @Override
     public IPage<DataVo> selectSys(SearchVo searchVo, Integer pageIndex, Integer pageSize) {
-        Date startDate = null, endDate = null;
-        QueryWrapper<DataPo> wrapper = new QueryWrapper<>();
-        wrapper.eq(StringUtils.isNotEmpty(searchVo.getSendSysCode()),"send_sys_code",searchVo.getSendSysCode());
-        wrapper.eq(StringUtils.isNotEmpty(searchVo.getAccSysCode()),"acc_sys_code",searchVo.getAccSysCode());
+        QueryWrapper<DataPo> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq(StringUtils.isNotEmpty(searchVo.getSendSysCode()), "send_sys_code", searchVo.getSendSysCode());
+        queryWrapper.eq(StringUtils.isNotEmpty(searchVo.getAccSysCode()), "acc_sys_code", searchVo.getAccSysCode());
         String dimension = searchVo.getDimension();
+        Page<DataPo> dataPoPage;
         if (StringUtils.isNotEmpty(dimension)){
+            Date startDate = getDate(searchVo, 0) , endDate = getDate(searchVo, 1);
             //1 判断时间维度是哪种类型
-            switch (dimension){
+            switch (dimension) {
+                //年
                 case "01":
-                    startDate =getFirstDate(searchVo.getDate().substring(0,4),pattern);
-                    endDate = getDate(searchVo.getDate().substring(11,searchVo.getDate().length()),pattern);
-                    wrapper.between("date",startDate,endDate);
-                    break;
+                    queryWrapper.select("project_id,send_sys_code,tx_code,acc_sys_code,name, SUM(count) as count");
+                    queryWrapper.between(StringUtils.isNotEmpty(searchVo.getDimension()), "date", startDate, endDate);
+                    queryWrapper.groupBy("project_id", "send_sys_code", "tx_code", "acc_sys_code", "name");
+                    dataPoPage = dataServiceMapper.selectPage(new Page<>(pageIndex, pageSize), queryWrapper);
+//                    dataPoPage = dataServiceMapper.selectData(new Page<>(pageIndex, pageSize), queryWrapper);
+                    return buildData(searchVo, dataPoPage);
+                //月
                 case "02":
-                    startDate =getFirstDate(searchVo.getDate().substring(0,7),pattern);
-                    endDate = getDate(searchVo.getDate().substring(11,searchVo.getDate().length()),pattern);
-                    wrapper.between("date",startDate,endDate);
-                    break;
+                    queryWrapper.select("project_id","send_sys_code,tx_code","acc_sys_code","name", "SUM(count) count","DATE_FORMAT(date,'%Y-%m') AS monthDate");
+                    queryWrapper.between(StringUtils.isNotEmpty(searchVo.getDimension()), "date", startDate, endDate);
+                    queryWrapper.groupBy("project_id", "send_sys_code", "tx_code", "acc_sys_code", "name", "DATE_FORMAT(date,'%Y-%m')");
+                    dataPoPage = dataServiceMapper.selectPage(new Page<>(pageIndex, pageSize), queryWrapper);
+                    return buildData(searchVo, dataPoPage);
+                //日
                 case "03":
-                    startDate =getDate(searchVo.getDate().substring(0,10),pattern);
-                    endDate = getDate(searchVo.getDate().substring(11,searchVo.getDate().length()),pattern);
-                    wrapper.between("date",startDate,endDate);
-                    break;
+                    queryWrapper.between(StringUtils.isNotEmpty(searchVo.getDimension()), "date", startDate, endDate);
+                    dataPoPage = dataServiceMapper.selectPage(new Page<>(pageIndex, pageSize), queryWrapper);
+                    return buildData(searchVo, dataPoPage);
             }
+        } else {
+            dataPoPage = dataServiceMapper.selectPage(new Page<>(pageIndex, pageSize), queryWrapper);
+            return buildData(searchVo, dataPoPage);
         }
-        //2 获取数据库中数据
-        Page<DataPo> dataPoPage = dataServiceMapper.selectPage(new Page<>(pageIndex, pageSize), wrapper);
-        List<DataPo> records = dataPoPage.getRecords();
-        ArrayList<DataVo> dataVos = new ArrayList<>();
-        //3 转换类型
-        for (DataPo record : records) {
-            dataVos.add(new DataVo(record.getId(), record.getProjectId(), record.getSendSysCode(), record.getAccSysCode(), record.getName()
-                    , record.getTxCode(), record.getDate().toString(), searchVo.getDimension(), record.getCount()));
-        }
+        return null;
+    }
+
+
+    /**
+     * 获取数据
+     *
+     * @param searchVo
+     * @return
+     */
+    private Page<DataVo> buildData(SearchVo searchVo, Page<DataPo> dataPoPage) {
         Page<DataVo> dataVoPage = new Page<>();
-//        BeanUtils.copyProperties(records,dataVoPage);
-        buildResultPage(dataVoPage, dataPoPage, dataVos);
+        List<DataVo> dataVos = getDataVos(searchVo, dataPoPage.getRecords());
+        BeanUtils.copyProperties(dataPoPage, dataVoPage);
+        dataVoPage.setRecords(dataVos);
         return dataVoPage;
     }
 
 
-    private Date getFirstDate(String substring, String pattern) {
-        int year = Integer.parseInt(substring);
-        Calendar calendar = Calendar.getInstance();
-        calendar.clear();
-        calendar.set(Calendar.YEAR, year);
-        Date currYearFirst = calendar.getTime();
-        return currYearFirst;
+    private List<DataVo> getDataVos(SearchVo searchVo, List<DataPo> records) {
+        List<DataVo> dataVos = new ArrayList<>();
+        //3 转换类型
+        //TODO date 需确认
+        String date = null;
+        if ("01".equals(searchVo.getDimension())) {
+            date = searchVo.getDate();
+        }
+        for (DataPo record : records) {
+            if ("02".equals(searchVo.getDimension())) {
+                date = record.getMonthDate();
+            }
+            dataVos.add(new DataVo(record.getId(), record.getProjectId(), record.getSendSysCode(), record.getAccSysCode(), record.getName()
+                    , record.getTxCode(), StringUtils.isNotEmpty(date) ? date : record.getDate().toString(), searchVo.getDimension(), record.getCount()));
+        }
+        return dataVos;
     }
 
-    private void buildResultPage(Page<DataVo> dataVoPage, Page<DataPo> dataPoPage, ArrayList<DataVo> dataVos) {
-        dataVoPage.setRecords(dataVos);
-        dataVoPage.setCurrent(dataPoPage.getCurrent());
-        dataVoPage.setSize(dataPoPage.getSize());
-        dataVoPage.setTotal(dataPoPage.getTotal());
-        dataVoPage.setPages(dataPoPage.getPages());
-    }
 
-    private Date getDate(String dateString, String pattern) {
+    private Date getDate(SearchVo searchVo, int index) {
+        String dateString = searchVo.getDate();
+        String substring;
+        if (index == 0) substring = dateString.substring(0, 10);
+        else substring = dateString.substring(11);
         SimpleDateFormat sdf = new SimpleDateFormat(pattern);
         Date date = null;
         try {
-            date = sdf.parse(dateString);
+            date = sdf.parse(substring);
         } catch (ParseException e) {
             e.printStackTrace();
         }
         return date;
     }
+
+
+    /**
+     * 获取日数据
+     *
+     * @param searchVo
+     * @return
+     */
+//    private Page<DataVo> getDayData(SearchVo searchVo, Integer pageIndex, Integer pageSize) {
+//
+//        Page<DataPo>
+//        Page<DataVo> dataVoPage = new Page<>();
+//        BeanUtils.copyProperties(dataPoPage.getRecords(), dataVoPage);
+//        return dataVoPage;
+//    }
+
 
 }

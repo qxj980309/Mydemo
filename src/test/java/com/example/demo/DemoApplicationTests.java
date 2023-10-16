@@ -7,6 +7,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.math.BigInteger;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.YearMonth;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAdjusters;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
@@ -131,13 +136,43 @@ class DemoApplicationTests {
 //        } catch (ParseException e) {
 //            e.printStackTrace();
 //        }
-        String substring = "2022";
-        int year = Integer.parseInt(substring);
-        Calendar calendar = Calendar.getInstance();
-        calendar.clear();
-        calendar.set(Calendar.YEAR, year);
-        Date currYearFirst = calendar.getTime();
-        System.out.println(currYearFirst);
+
+        /*
+        * 方法一：根据年月获取月份对应第一天和最后一天
+        * */
+//        String input = "2023-10";
+//        YearMonth yearMonth = YearMonth.parse(input);
+//        // 获取当月的第一天
+//        LocalDate firstDayOfMonth = yearMonth.atDay(1);
+//        System.out.println("当月的第一天：" + firstDayOfMonth);
+//        // 获取当月的最后一天
+//        LocalDate lastDayOfMonth = yearMonth.atEndOfMonth();
+//        System.out.println("当月的最后一天：" + lastDayOfMonth);
+//        //localDate 转 Date
+//        Date date = Date.from(lastDayOfMonth.atStartOfDay(ZoneId.systemDefault()).toInstant());
+
+        /*
+         * 方法二：根据年月获取月份对应第一天和最后一天
+         * */
+//        String input = "2023-10";
+//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
+//        try {
+//            Date date = sdf.parse(input);
+//
+//            // 获取当月第一天
+//            Calendar calendar = Calendar.getInstance();
+//            calendar.setTime(date);
+//            calendar.set(Calendar.DAY_OF_MONTH, 1);
+//            Date firstDayOfMonth = calendar.getTime();
+//            System.out.println("当月的第一天：" + firstDayOfMonth);
+//
+//            // 获取当月最后一天
+//            calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
+//            Date lastDayOfMonth = calendar.getTime();
+//            System.out.println("当月的最后一天：" + lastDayOfMonth);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
     }
 
 }

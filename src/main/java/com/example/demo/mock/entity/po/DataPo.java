@@ -1,4 +1,4 @@
-package com.example.demo.entity;
+package com.example.demo.mock.entity.po;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;

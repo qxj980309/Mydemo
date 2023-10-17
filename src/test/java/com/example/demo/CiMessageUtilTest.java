@@ -1,16 +1,12 @@
 package com.example.demo;
 
-import cn.hutool.core.io.BufferUtil;
-import cn.hutool.core.lang.Console;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.socket.nio.NioServer;
-import com.example.demo.common.CiMessageUtil;
-import com.example.demo.common.CiMessageUtils;
+import com.example.demo.mock.common.util.CiMessageUtils;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 
 import java.nio.ByteBuffer;
-import java.nio.charset.Charset;
 import java.util.Map;
 
 public class CiMessageUtilTest {

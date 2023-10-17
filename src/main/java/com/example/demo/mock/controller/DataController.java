@@ -1,11 +1,10 @@
-package com.example.demo.controller;
+package com.example.demo.mock.controller;
 
-import cn.hutool.log.LogFactory;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.example.demo.common.result.Result;
-import com.example.demo.entity.vo.DataVo;
-import com.example.demo.entity.vo.SearchVo;
-import com.example.demo.service.DataService;
+import com.example.demo.mock.entity.vo.DataVo;
+import com.example.demo.mock.entity.vo.SearchVo;
+import com.example.demo.mock.service.DataService;
 import io.swagger.annotations.Api;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

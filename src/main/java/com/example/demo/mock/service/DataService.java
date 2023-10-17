@@ -1,8 +1,8 @@
-package com.example.demo.service;
+package com.example.demo.mock.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.example.demo.entity.vo.DataVo;
-import com.example.demo.entity.vo.SearchVo;
+import com.example.demo.mock.entity.vo.DataVo;
+import com.example.demo.mock.entity.vo.SearchVo;
 
 public interface DataService {
     IPage<DataVo> selectApi(SearchVo searchVo ,Integer pageIndex,Integer pageSize);

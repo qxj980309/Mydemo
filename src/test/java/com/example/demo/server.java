@@ -6,7 +6,7 @@ import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.lang.Console;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.socket.nio.NioServer;
-import com.example.demo.common.CiMessageUtil;
+import com.example.demo.mock.common.util.CiMessageUtil;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;

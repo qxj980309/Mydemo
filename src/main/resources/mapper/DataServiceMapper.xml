@@ -3,7 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.demo.mapper.DataServiceMapper">
 
-    <resultMap id="DataVoMap" type="com.example.demo.entity.vo.DataVo">
+    <resultMap id="DataVoMap" type="com.example.demo.mock.entity.vo.DataVo">
         <result property="id" column="id"/>
         <result property="projectId" column="project_id"/>
         <result property="sendSysCode" column="send_sys_code"/>
@@ -14,7 +14,7 @@
         <result property="count" column="count"/>
     </resultMap>
 
-    <select id="selectData" resultType="com.example.demo.entity.vo.DataVo">
+    <select id="selectData" resultType="com.example.demo.mock.entity.vo.DataVo">
         select id , project_id,send_sys_code,acc_sys_code,name,tx_code, SUM(count) as count
         from td_data_statistic
         <where>

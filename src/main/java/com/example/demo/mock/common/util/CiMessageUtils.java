@@ -1,65 +1,52 @@
-package com.example.demo.common;
+package com.example.demo.mock.common.util;
 
-import ch.qos.logback.core.encoder.ByteArrayUtil;
 import com.example.demo.common.exception.BizException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import org.slf4j.LoggerFactory;
-import org.slf4j.Logger;
+import java.util.*;
 
-public class CiMessageUtil {
-    public CiMessageUtil(){
+public class CiMessageUtils {
+    public CiMessageUtils(){
     }
 
-    private final static Logger log = LoggerFactory.getLogger(CiMessageUtil.class);
+    private final static Logger log = LoggerFactory.getLogger(CiMessageUtils.class);
 
-
-    private ByteArray unpackData;
-
-    private String dataDict;
-
-    private String index;
-
-    private Object valueOfDict;
-
-    private Map<String , Object> unpackResult;
-
-    private String encoding = "GBK";
-            //DataByteArrayOutputStream
-    private DataByteArrayOutputStream packData;
+    private static final String encoding = "GBK";
 
     /*
     *
     *解析ci 报文
-    *
+    * @param data 输入报文
     */
-    public Map<String,Object> unpack(byte[] data){
+    public static Map<String,Object> unpack(byte[] data){
         if (data == null){
             log.debug("报文为空");
             throw  new NullPointerException("报文为空");
         }
         log.info("解包开始");
+        Map<String , Object> unpackResult = new HashMap<>();
+        ByteArray unpackData =new ByteArray(data , 0);
         try{
-            unpackData = new ByteArray(data , 0);
-            unpackResult =new HashMap<>();
             //识别初始序列
-            storeFrontDataOfStartByte();
-
+            unpackResult.put("Front_Data_Of_Start_Byte",getFrontDataOfStartByte(unpackData));
+            //参数名
+            String dataDict = null;
+            //下标，用来区分list
+            String index = null;
             while (!unpackData.isReadToEnd()){
                 byte oneByte = unpackData.read(1)[0];
-
                 //1:属性名开始标志 2;下标开始标志 3：参数值开始标志
                 if (oneByte == 1){
-                    unpackDataDictFiled();
+                    dataDict = unpackDataDictFiled(unpackData);
                 } else if (oneByte == 2){
-                    unpackDataIndexFiled(unpackData);
+                    index = unpackIndexFiled(unpackData);
                 } else if (oneByte == 3){
-                    unpackValueOfDictFiled();
+                    Object valueOfDict = unpackValueOfDictFiled(unpackData);
+                    storeDataCell(dataDict,index,valueOfDict,unpackResult);
                 }
             }
         }catch (Exception var3){
@@ -70,38 +57,40 @@ public class CiMessageUtil {
         return unpackResult;
     }
 
-    public byte[] pack(Object obj){
+    public static byte[] pack(Map<String, Object> obj){
         log.debug("ci报文打包开始");
-        packData = new DataByteArrayOutputStream();
+        ByteArrayOutputStream packData = new ByteArrayOutputStream();
         if(obj == null){
             log.error("报文为空");
-            throw new NullPointerException("打包数据为空");
+            throw new BizException("打包数据为空");
         }
 
         try {
             //识别初始序列，对象中保存的Front_Data_Of_Start_Byte值
-            packFrontDataOfStartByte(obj);
+            packFrontDataOfStartByte(packData,obj);
             //原始方法解析数据池和DataObject两种方式，这里采取DataObject方式（类似Mao格式）
-            packFrontDataObject(obj);
+            packFrontDataObject(packData,obj);
         }catch (Exception e){
             log.error("报文为空");
-            throw new NullPointerException("打包ci后台报文出错");
+            throw new BizException("打包ci后台报文出错");
         }
-        log.info("ci报文打包结束");
+        log.debug("ci报文打包结束");
         return packData.toByteArray();
     }
 
-    private void storeFrontDataOfStartByte() throws UnsupportedEncodingException {
-        byte[] frontDataOfStartByte = unpackFrontDataOfStartByte();
+    private static String getFrontDataOfStartByte(ByteArray unpackData) throws UnsupportedEncodingException {
+        byte[] frontDataOfStartByte = unpackFrontDataOfStartByte(unpackData);
         String steData = new String(frontDataOfStartByte,encoding);
-        unpackResult.put("Front_Data_Of_Start_Byte",steData);
-        log.debug("开始字符之前数据存入数据池（Front_Data_Of_Start_Byte）"+ steData);
+        log.debug("开始字符之前数据（Front_Data_Of_Start_Byte）："+ steData);
+        return steData;
     }
 
-    private byte[] unpackFrontDataOfStartByte() {
-        DataByteArrayOutputStream dataByteArrayOutputStream = new DataByteArrayOutputStream();
+    private static byte[] unpackFrontDataOfStartByte(ByteArray unpackData) {
+        ByteArrayOutputStream dataDictBytesStream = new ByteArrayOutputStream();
+
         while (!unpackData.isReadToEnd()){
-            byte oneByte = unpackData.read(1)[0];
+            byte[] read = unpackData.read(1);
+            byte oneByte = read[0];
             if (oneByte == 1){
                 int currentOffset = unpackData.getOffset();
                 unpackData.setOffset(currentOffset-1);
@@ -119,17 +108,17 @@ public class CiMessageUtil {
             }
 
             if(oneByte == 92){
-                handleEscapeChar(unpackData,dataByteArrayOutputStream);
+                handleEscapeChar(unpackData,dataDictBytesStream);
             } else {
-              dataByteArrayOutputStream.write(oneByte);
+                dataDictBytesStream.write(oneByte);
             }
         }
-        return dataByteArrayOutputStream.toByteArray();
+        return dataDictBytesStream.toByteArray();
     }
 
-    private void handleEscapeChar(ByteArray unpackData, DataByteArrayOutputStream bytes) {
+    private static void handleEscapeChar(ByteArray unpackData, ByteArrayOutputStream bytes) {
         byte oneByte = unpackData.read(1)[0];
-        if (oneByte != 1 && oneByte != 2 &&  oneByte != 3){
+        if(oneByte!=1 && oneByte!=2 && oneByte!=3){
             bytes.write(oneByte);
         } else {
             bytes.write(oneByte);
@@ -139,14 +128,15 @@ public class CiMessageUtil {
     /*
     * 解析属性名
     * */
-    private void unpackDataDictFiled() throws UnsupportedEncodingException{
-        byte[] dictBytes = getDateDictBytes();
-        dataDict = new String(dictBytes,encoding);
-        log.debug("解包数据字典名称"+dataDict);
+    private static String unpackDataDictFiled(ByteArray unpackData) throws UnsupportedEncodingException{
+        byte[] dictBytes = getDateDictBytes(unpackData);
+        String dataDict = new String(dictBytes,encoding);
+        log.debug("解包数据字典名称: "+dataDict);
+        return dataDict;
     }
 
-    private byte[] getDateDictBytes() {
-        DataByteArrayOutputStream dataDictBytesStream = new DataByteArrayOutputStream();
+    private static byte[] getDateDictBytes(ByteArray unpackData) {
+        ByteArrayOutputStream dataDictBytesStream = new ByteArrayOutputStream();
 
         while (!unpackData.isReadToEnd()){
             byte oneByte = unpackData.read(1)[0];
@@ -179,16 +169,17 @@ public class CiMessageUtil {
     /*
     * 解析下标
     * */
-    private void unpackDataIndexFiled(ByteArray unpackData) throws UnsupportedEncodingException{
+    private static String unpackIndexFiled(ByteArray unpackData) throws UnsupportedEncodingException{
         byte[] indexBytes = getIndexBytes(unpackData);
-        index = new String(indexBytes,encoding);
-        log.debug("解包数据字典下标"+ ByteArrayUtil.toHexString(indexBytes) );
+        String index = new String(indexBytes,encoding);
+        log.debug("解包数据字典下标: " + index );
+        return index;
     }
 
-    private byte[] getIndexBytes(ByteArray unpackData) {
-        DataByteArrayOutputStream indexBytesStream = new DataByteArrayOutputStream();
+    private static byte[] getIndexBytes(ByteArray unpackData) {
+        ByteArrayOutputStream indexBytesStream = new ByteArrayOutputStream();
         while (true){
-            if (unpackData.isReadToEnd()){
+            if (!unpackData.isReadToEnd()){
                 byte oneByte = unpackData.read(1)[0];
                 if (oneByte == 1){
                     log.error("中间字符0x02后，应该出现结束字符0x03，而不是0x01");
@@ -211,24 +202,22 @@ public class CiMessageUtil {
                 int currentOffset = unpackData.getOffset();
                 unpackData.setOffset(currentOffset -1);
             }
-
             return indexBytesStream.toByteArray();
-
         }
     }
 
     /*
     * 解析参数值
     * */
-    private void unpackValueOfDictFiled() throws UnsupportedEncodingException{
-        byte[] valueOfDictBytes = getValueOfDictBytes();
-//        valueOfDict = new String(valueOfDictBytes,encoding);
-        valueOfDict = parseDataType(valueOfDictBytes);
-        storeDataCell(dataDict,valueOfDict);
+    private static Object unpackValueOfDictFiled(ByteArray unpackData) throws UnsupportedEncodingException{
+        byte[] valueOfDictBytes = getValueOfDictBytes(unpackData);
+        Object valueOfDict = parseDataType(valueOfDictBytes);
+        log.debug("解包数据字典值：" ,valueOfDict);
+        return valueOfDict;
     }
 
-    private byte[] getValueOfDictBytes() {
-        DataByteArrayOutputStream valueOfDictBytesStream = new DataByteArrayOutputStream();
+    private static byte[] getValueOfDictBytes(ByteArray unpackData) {
+        ByteArrayOutputStream valueOfDictBytesStream = new ByteArrayOutputStream();
 
         while (!unpackData.isReadToEnd()){
             byte oneByte = unpackData.read(1)[0];
@@ -261,28 +250,28 @@ public class CiMessageUtil {
 
     }
 
-    private Object parseDataType(byte[] valueOfDictBytes) throws UnsupportedEncodingException{
+    private static Object parseDataType(byte[] valueOfDictBytes) throws UnsupportedEncodingException{
         /*
         *获取数据类型；判断是否属于MoneyDataType；判断是否数据BinaryDataType；其他情况直接转为String
         **/
-        valueOfDict = new String(valueOfDictBytes,encoding);
+        String valueOfDict = new String(valueOfDictBytes,encoding);
         return valueOfDict;
     }
 
-    private void storeDataCell(String dataDict, Object valueOfDict) {
-        if (isRepeatDict()){
-            handleRepeatDict();
+    private static void storeDataCell(String dataDict, String index, Object valueOfDict , Map<String, Object> unpackResult) {
+        if (isRepeatDict(index)){
+            handleRepeatDict(dataDict, valueOfDict, unpackResult);
         } else {
-            unpackResult.put(dataDict,valueOfDict);
+            unpackResult.put(dataDict, valueOfDict);
             log.debug("解包数据字典值（存入unpackResult）"+valueOfDict);
         }
     }
 
-    private boolean isRepeatDict() {
+    private static boolean isRepeatDict(String index) {
         return !"0".equals(index);
     }
 
-    private void handleRepeatDict() {
+    private static void handleRepeatDict(String dataDict, Object valueOfDict , Map<String, Object> unpackResult) {
         Object obj = unpackResult.get(dataDict);
         if (obj instanceof List){
             ((List) obj).add(valueOfDict);
@@ -294,62 +283,54 @@ public class CiMessageUtil {
         }
     }
 
-    private void packFrontDataOfStartByte(Object obj) throws IOException {
-        Map<String,Object> packObject =(Map<String, Object>) obj;
+    private static void packFrontDataOfStartByte(ByteArrayOutputStream packData,Map<String, Object> packObject) throws IOException {
         Object frontDataOfStartByte = packObject.get("Front_Data_Of_Start_Byte");
         String strData = String.valueOf(frontDataOfStartByte);
         if (null != frontDataOfStartByte){
             packData.write(strData.getBytes(encoding));
-            log.debug("打包开始字符之前数据"+ strData);
+            log.debug("打包开始字符之前数据: "+ strData);
         } else {
             log.debug("未找到开始字符之前数据");
         }
 
     }
 
-    private void packFrontDataObject(Object obj) throws IOException {
+    private static void packFrontDataObject(ByteArrayOutputStream packData,Map<String, Object> packObject) throws IOException {
         /*
          * 解包流程
          * 1。原始方法考虑特殊类型，这里省略，主要考虑单个值和List类型
          */
-        Map<String,Object> packObject = (Map<String, Object>) obj;
+//        Map<String,Object> packObject = (Map<String, Object>) obj;
         for(String key : packObject.keySet()){
             Object value = packObject.get(key);
             if (value instanceof  Map){
-                packFrontDataObject(value);
+                packFrontDataObject(packData,(Map<String, Object>) value);
             } else {
-                valueOfDict = value;
-                dataDict = key;
-                packDataEntry();
+                packDataEntry(value , key ,packData);
             }
 
         }
 
     }
 
-    private void packDataEntry() throws IOException {
+    private static void packDataEntry(Object valueOfDict , String dataDict ,ByteArrayOutputStream packData ) throws IOException {
         if (valueOfDict instanceof List){
-            List valueOfDicts =(List) valueOfDict;
-            if (packDataDict(dataDict)){
-                for (int i = 0; i <valueOfDicts.size();i++){
-                    packIndex(i);
-                    packValveOfDict(dataDict,valueOfDicts.get(i));
+            List valueList =(List) valueOfDict;
+            if (packDataDict(dataDict,packData)){
+                for (int i = 0; i <valueList.size();++i){
+                    packIndex(i,packData);
+                    packValveOfDict(valueList.get(i),packData);
                 }
             }
-        } else if (packDataDict(dataDict)){
-            packIndex(0);
-            packValveOfDict(dataDict,valueOfDict);
+        } else if (packDataDict(dataDict ,packData)){
+            packIndex(0,packData);
+            packValveOfDict(valueOfDict,packData);
         }
 
     }
 
-    private boolean packDataDict(String dataDict) throws IOException {
+    private static boolean packDataDict(String dataDict, ByteArrayOutputStream packData) throws IOException {
         //判断必输是否数据数据字典的属性名
-//        if(!havingDataDict(dataDict)){
-//            return false;
-//        } else {
-//
-//        }
         packData.write(1);
         packData.write(dataDict.getBytes(encoding));
         log.warn("打包数据字典："+ dataDict);
@@ -360,27 +341,23 @@ public class CiMessageUtil {
         return true;
     }
 
-    private void packIndex(int index) throws IOException {
+    private static void packIndex(int index,ByteArrayOutputStream packData) throws IOException {
         packData.write(2);
         packData.write(String.valueOf(index).getBytes(encoding));
-        log.debug("打包下标");
+        log.debug("打包下标: ",index);
     }
 
-    private void packValveOfDict(String dataDict, Object valueOfDict) throws IOException {
+    private static void packValveOfDict(Object valueOfDict , ByteArrayOutputStream packData) throws IOException {
         packData.write(3);
-        byte[] dictValue = getFromatedValueOfDict(dataDict,valueOfDict);
+        byte[] dictValue = getFormatValueOfDict(valueOfDict);
         dictValue = transferValveOfDict(dictValue);
         packData.write(dictValue);
-        log.debug("打包数据字典值" + valueOfDict);
+        log.debug("打包数据字典值: " + valueOfDict);
     }
 
-    private byte[] transferValveOfDict(byte[] dictValue) {
-        DataByteArrayOutputStream transferredDictValve = new DataByteArrayOutputStream();
-        byte[] dictValueByte = dictValue;
-        int len = dictValue.length;
-
-        for(int i = 0; i< len; i++){
-            byte oneChar = dictValueByte[i];
+    private static byte[] transferValveOfDict(byte[] dictValue) {
+        ByteArrayOutputStream transferredDictValve = new ByteArrayOutputStream();
+        for(byte oneChar : dictValue){
             if (oneChar ==1 || oneChar == 2 || oneChar == 3 || oneChar == 92) {
                 transferredDictValve.write(92);
             }
@@ -395,14 +372,12 @@ public class CiMessageUtil {
     * 获取带格式的value
     */
 
-    private byte[] getFromatedValueOfDict(String dataDict, Object valueOfDict) throws UnsupportedEncodingException{
-        byte[] byteData;
+    private static byte[] getFormatValueOfDict(Object valueOfDict) throws UnsupportedEncodingException{
         String valveOfDictTemp = (String) valueOfDict;
-        byteData = valveOfDictTemp.getBytes(encoding);
-        return null == byteData ? new byte[0] : byteData;
+        return valveOfDictTemp.getBytes(encoding);
     }
 
-    class ByteArray{
+    static class ByteArray{
 
         private byte[] bytes;
 
@@ -447,42 +422,6 @@ public class CiMessageUtil {
         public boolean isReadToEnd(){
             return this.offset >= this.bytes.length;
         }
-    }
-
-
-    class DataByteArrayOutputStream extends  ByteArrayOutputStream {
-
-        private byte[] writeBuffer = new byte[0];
-
-        public DataByteArrayOutputStream (int size){
-            super(size);
-        }
-
-        public DataByteArrayOutputStream(){
-            super(32);
-        }
-
-
-        public final void writeInt(int v) throws IOException{
-            write(v >>> 24 & 255);
-            write(v >>> 16 & 255);
-            write(v >>> 8 & 255);
-            write(v >>> 0 & 255);
-        }
-
-        public final void writeLong(long v) throws Exception{
-            writeBuffer[0] = (byte)((int) (v >>> 56));
-            writeBuffer[1] = (byte)((int) (v >>> 48));
-            writeBuffer[2] = (byte)((int) (v >>> 40));
-            writeBuffer[3] = (byte)((int) (v >>> 32));
-            writeBuffer[4] = (byte)((int) (v >>> 24));
-            writeBuffer[5] = (byte)((int) (v >>> 16));
-            writeBuffer[6] = (byte)((int) (v >>> 8));
-            writeBuffer[7] = (byte)((int) (v >>> 0));
-            write(writeBuffer,0,8);
-        }
-
-
     }
 
 }

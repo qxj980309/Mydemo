@@ -1,15 +1,12 @@
-package com.example.demo.mapper;
+package com.example.demo.mock.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.example.demo.entity.DataPo;
-import com.example.demo.entity.vo.DataVo;
+import com.example.demo.mock.entity.po.DataPo;
+import com.example.demo.mock.entity.vo.DataVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
-
-import java.util.List;
 
 
 @Mapper

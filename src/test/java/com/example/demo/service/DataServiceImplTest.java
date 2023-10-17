@@ -1,15 +1,11 @@
 package com.example.demo.service;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.example.demo.common.result.Result;
-import com.example.demo.entity.vo.DataVo;
-import com.example.demo.entity.vo.SearchVo;
+import com.example.demo.mock.entity.vo.SearchVo;
+import com.example.demo.mock.service.DataService;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.List;
 
 @SpringBootTest
 public class DataServiceImplTest {

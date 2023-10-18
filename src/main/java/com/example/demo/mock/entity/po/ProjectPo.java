@@ -12,7 +12,7 @@ import javax.validation.constraints.NotBlank;
 @Setter
 @ApiModel(description = "项目实体类")
 @TableName(value = "td_project",autoResultMap = true)
-public class projectPO {
+public class ProjectPo {
     @ApiModelProperty(value = "逻辑主键")
     private Long id;
 

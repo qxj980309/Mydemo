@@ -2,9 +2,11 @@ package com.example.demo.mock.entity.vo;
 
 import io.swagger.annotations.ApiModel;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @ApiModel(description = "f访问数据统计")
 public class DataVo {

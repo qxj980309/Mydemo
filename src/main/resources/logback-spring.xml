@@ -104,6 +104,8 @@
     </root>
     <!--打印sql-->
     <logger name="com.example.demo.mapper" level="DEBUG" />
+    <logger name="com.example.demo.mock.mapper" level="DEBUG" />
+
 
 
 </configuration>

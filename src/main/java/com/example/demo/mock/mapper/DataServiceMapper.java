@@ -11,5 +11,5 @@ import org.apache.ibatis.annotations.Param;
 
 @Mapper
 public interface DataServiceMapper extends BaseMapper<DataPo> {
-    IPage<DataVo> selectData(Page page,@Param("sendSysCode") String sendSysCode,@Param("accSysCode") String accSysCode,@Param("date")String date);
+//    IPage<DataVo> selectData(Page page,@Param("sendSysCode") String sendSysCode,@Param("accSysCode") String accSysCode,@Param("date")String date);
 }

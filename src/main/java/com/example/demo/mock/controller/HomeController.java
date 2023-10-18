@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @RestController
 @RequestMapping("/home")
@@ -27,4 +28,15 @@ public class HomeController {
             return Result.error(e.getMessage());
         }
     }
+
+    @GetMapping("/allCount1")
+    public List<ProjectCountVo> allCount1() {
+        return homeService.allProjectCountVo();
+    }
+
+    @GetMapping("/allCount1")
+    public List<ProjectCountVo> allCount2() {
+        return homeService.allProjectCountVo1();
+    }
+
 }

@@ -9,12 +9,13 @@ import java.util.List;
 @Mapper
 public interface InterfaceCaseMapper {
 
-    @Select("Select id from td_interfaceCase where interface_id = #{id} group by id")
+    @Select("Select id from td_interfaceCase where interface_id = #{id} and delete_flag = 0 group by id")
     List<Long> alIdByInterfaceId(Long id);
 
-    @Select("SELECT a.name,count(c.interface_id) as count" +
-            "  FROM td_project a LEFT JOIN td_interface b ON a.id = b.project_id LEFT JOIN td_interfacecase c ON b.id = c.interface_id\n" +
-            "  GROUP BY a.name")
+    @Select("SELECT a.id,a.name,count(c.interface_id) as count\n" +
+            " FROM td_project a LEFT JOIN td_interface b ON a.id = b.project_id AND a.delete_flag = 0 \n" +
+            " LEFT JOIN td_interfacecase c ON b.id = c.interface_id AND b.delete_flag = 0 AND c.delete_flag = 0\n" +
+            " GROUP BY a.id,a.name")
     List<ProVO> alIdByInterfaceId1();
 
 }

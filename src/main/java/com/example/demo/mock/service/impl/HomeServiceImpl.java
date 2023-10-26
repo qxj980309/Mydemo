@@ -10,12 +10,9 @@ import com.example.demo.mock.service.HomeService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
-
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 @Service
 @Transactional
@@ -30,6 +27,42 @@ public class HomeServiceImpl implements HomeService {
     @Resource
     private InterfaceCaseMapper interfaceCaseMapper;
 
+//    @Override
+//    public ProjectCountVo allCount(){
+//        //获取所有项目id
+//        ProjectCountVo projectCountVo = new ProjectCountVo();
+//        List<String> proNames = new ArrayList<>();
+//        List<Integer> interfaceIds = new ArrayList<>();
+//        List<Integer> caseIds = new ArrayList<>();
+//        List<ProjectPo> projectPo = projectMapper.getAllProjectId();
+//        if (CollectionUtils.isEmpty(projectPo)) return null;
+//        int totalItf = 0, totalCase = 0;
+//        for (ProjectPo  project: projectPo) {
+//            proNames.add(project.getName());
+//            List<Long> itfIds = interfaceMapper.alIdByProId(project.getId());
+//            totalItf += itfIds.size();
+//            interfaceIds.add(itfIds.size());
+//            int count = 0;
+//            for (Long itfId : itfIds) {
+//                List<Long> cIds = interfaceCaseMapper.alIdByInterfaceId(itfId);
+//                count += cIds.size();
+//            }
+//            totalCase += count;
+//            caseIds.add(count);
+//        }
+//        proNames.add("项目总和");
+//        interfaceIds.add(totalItf);
+//        caseIds.add(totalCase);
+//
+//        projectCountVo.setName(proNames);
+//        projectCountVo.setInterfaceCount(interfaceIds);
+//        projectCountVo.setCaseCount(caseIds);
+//
+//
+//        return projectCountVo;
+//
+//    }
+
     @Override
     public ProjectCountVo allCount(){
         //获取所有项目id
@@ -37,21 +70,37 @@ public class HomeServiceImpl implements HomeService {
         List<String> proNames = new ArrayList<>();
         List<Integer> interfaceIds = new ArrayList<>();
         List<Integer> caseIds = new ArrayList<>();
-        List<ProjectPo> projectPo = projectMapper.getAllProjectId();
-        if (CollectionUtils.isEmpty(projectPo)) return null;
+//        List<ProjectPo> projectPo = projectMapper.getAllProjectId();
+//        if (CollectionUtils.isEmpty(projectPo)) return null;
+//        int totalItf = 0, totalCase = 0;
+//        for (ProjectPo  project: projectPo) {
+//            proNames.add(project.getName());
+//            List<Long> itfIds = interfaceMapper.alIdByProId(project.getId());
+//            totalItf += itfIds.size();
+//            interfaceIds.add(itfIds.size());
+//            int count = 0;
+//            for (Long itfId : itfIds) {
+//                List<Long> cIds = interfaceCaseMapper.alIdByInterfaceId(itfId);
+//                count += cIds.size();
+//            }
+//            totalCase += count;
+//            caseIds.add(count);
+//        }
+        List<ProVO> interfaceMap= interfaceMapper.alIdByProId1();
+        List<ProVO> caseMsp = interfaceCaseMapper.alIdByInterfaceId1();
         int totalItf = 0, totalCase = 0;
-        for (ProjectPo  project: projectPo) {
-            proNames.add(project.getName());
-            List<Long> itfIds = interfaceMapper.alIdByProId(project.getId());
-            totalItf += itfIds.size();
-            interfaceIds.add(itfIds.size());
-            int count = 0;
-            for (Long itfId : itfIds) {
-                List<Long> cIds = interfaceCaseMapper.alIdByInterfaceId(itfId);
-                count += cIds.size();
+        for (ProVO itfVO : interfaceMap) {
+            proNames.add(itfVO.getName());
+            interfaceIds.add(itfVO.getCount());
+            totalItf += itfVO.getCount();
+            for (ProVO caseVo : caseMsp) {
+                if (itfVO.getId().equals(caseVo.getId())){
+                    caseIds.add(caseVo.getCount());
+                    totalCase += caseVo.getCount();
+                    break;
+                }
             }
-            totalCase += count;
-            caseIds.add(count);
+
         }
         proNames.add("项目总和");
         interfaceIds.add(totalItf);

@@ -11,7 +11,8 @@ import java.util.List;
 @Mapper
 public interface ProjectMapper extends BaseMapper<ProjectPo> {
 
-    @Select("select id,name from td_project")
+    @Select("select id,name from td_project where delete_flag = 0 ")
     List<ProjectPo> getAllProjectId();
 
+    
 }

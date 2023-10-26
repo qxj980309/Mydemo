@@ -9,10 +9,12 @@ import java.util.List;
 @Mapper
 public interface InterfaceMapper {
 
-    @Select("Select id from td_interface where project_id = #{id} group by id")
+    @Select("Select id from td_interface where project_id = #{id} and delete_flag = 0 group by id")
     List<Long> alIdByProId(Long id);
 
-    @Select("SELECT a.name,count(b.project_id) as count FROM td_project a LEFT JOIN td_interface b on a.id = b.project_id GROUP BY a.id ,a.name")
+    @Select("SELECT a.id,a.name,count(b.project_id) as count \n" +
+            " FROM td_project a LEFT JOIN td_interface b on a.id = b.project_id and a.delete_flag =0 and b.delete_flag =0 \n" +
+            " GROUP BY a.id ,a.name")
     List<ProVO> alIdByProId1();
 
 }

@@ -3,7 +3,7 @@ package com.example.demo.mock.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.example.demo.mock.entity.po.DataPo;
+import com.example.demo.mock.entity.po.DataPO;
 import com.example.demo.mock.entity.vo.DataVo;
 import com.example.demo.mock.entity.vo.SearchVo;
 import com.example.demo.mock.mapper.DataServiceMapper;
@@ -37,11 +37,11 @@ public class DataServiceImpl implements DataService {
 
     @Override
     public IPage<DataVo> selectSys(SearchVo searchVo, Integer pageIndex, Integer pageSize) {
-        QueryWrapper<DataPo> queryWrapper = new QueryWrapper<>();
+        QueryWrapper<DataPO> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq(StringUtils.isNotEmpty(searchVo.getSendSysCode()), "send_sys_code", searchVo.getSendSysCode());
         queryWrapper.eq(StringUtils.isNotEmpty(searchVo.getAccSysCode()), "acc_sys_code", searchVo.getAccSysCode());
         String dimension = searchVo.getDimension();
-        Page<DataPo> dataPoPage;
+        Page<DataPO> dataPoPage;
         if (StringUtils.isNotEmpty(dimension)){
             Date startDate = getDate(searchVo, 0) , endDate = getDate(searchVo, 1);
             //1 判断时间维度是哪种类型
@@ -81,7 +81,7 @@ public class DataServiceImpl implements DataService {
      * @param searchVo
      * @return
      */
-    private Page<DataVo> buildData(SearchVo searchVo, Page<DataPo> dataPoPage) {
+    private Page<DataVo> buildData(SearchVo searchVo, Page<DataPO> dataPoPage) {
         Page<DataVo> dataVoPage = new Page<>();
         List<DataVo> dataVos = getDataVos(searchVo, dataPoPage.getRecords());
         BeanUtils.copyProperties(dataPoPage, dataVoPage);
@@ -90,7 +90,7 @@ public class DataServiceImpl implements DataService {
     }
 
 
-    private List<DataVo> getDataVos(SearchVo searchVo, List<DataPo> records) {
+    private List<DataVo> getDataVos(SearchVo searchVo, List<DataPO> records) {
         List<DataVo> dataVos = new ArrayList<>();
         //3 转换类型
         //TODO date 需确认
@@ -98,7 +98,7 @@ public class DataServiceImpl implements DataService {
         if ("01".equals(searchVo.getDimension())) {
             date = searchVo.getDate();
         }
-        for (DataPo record : records) {
+        for (DataPO record : records) {
             if ("02".equals(searchVo.getDimension())) {
                 date = record.getMonthDate();
             }

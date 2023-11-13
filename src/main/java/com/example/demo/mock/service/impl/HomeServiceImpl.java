@@ -1,6 +1,6 @@
 package com.example.demo.mock.service.impl;
 
-import com.example.demo.mock.entity.po.ProjectPo;
+import com.example.demo.mock.entity.po.ProjectPO;
 import com.example.demo.mock.entity.vo.ProVO;
 import com.example.demo.mock.entity.vo.ProjectCountVo;
 import com.example.demo.mock.mapper.InterfaceCaseMapper;
@@ -118,10 +118,10 @@ public class HomeServiceImpl implements HomeService {
     @Override
     public List<ProjectCountVo> allProjectCountVo() {
         List<ProjectCountVo> projectCountVoList = new ArrayList<>();
-        List<ProjectPo> projectPo = projectMapper.getAllProjectId();
+        List<ProjectPO> projectPo = projectMapper.getAllProjectId();
         if (CollectionUtils.isEmpty(projectPo)) return null;
         int totalItf = 0, totalCase = 0;
-        for (ProjectPo  project: projectPo) {
+        for (ProjectPO project: projectPo) {
             ProjectCountVo projectCountVo = new ProjectCountVo();
             projectCountVo.setName1(project.getName());
             List<Long> itfIds = interfaceMapper.alIdByProId(project.getId());

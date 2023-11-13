@@ -15,7 +15,7 @@ import java.time.LocalDate;
 @Setter
 @ApiModel(description = "访问数据统计表实体类")
 @TableName(value = "td_data_statistic", autoResultMap = true)
-public class DataPo {
+public class DataPO {
     private Long id; //主键
     private Long projectId; // 项目编号
     private String sendSysCode; // 请求方系统号

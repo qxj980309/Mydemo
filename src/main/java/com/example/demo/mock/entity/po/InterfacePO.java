@@ -14,7 +14,7 @@ import javax.validation.constraints.NotNull;
 @Setter
 @ApiModel(value = "接口表实体类")
 @TableName(value = "td_interface",autoResultMap = true)
-public class InterFacePO {
+public class InterfacePO {
     @ApiModelProperty(value = "逻辑主键")
     @TableField(value = "id")
     private Long id;
@@ -51,10 +51,10 @@ public class InterFacePO {
     @TableField(value = "default_response")
     private String defaultResponse;
 
-//    @ApiModelProperty(value ="请求是晋关联公共报文")
-//    @Valid
+    @ApiModelProperty(value ="请求是晋关联公共报文")
+    @Valid
 //    @TableField(value = "is_related_request" ,typeHandler = IsRelatedPOTypeHandler.class)
-//    private IsRelatedPO isRelatedRequest;
+    private IsRelatedPO isRelatedRequest;
 //
 //    @ApiModelProperty(value ="请求是晋关联公共报文")
 //    @Valid

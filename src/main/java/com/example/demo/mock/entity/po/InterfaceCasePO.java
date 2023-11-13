@@ -16,7 +16,7 @@ import java.util.List;
 @Setter
 @ApiModel(description = "接口案例实体类")
 @TableName(value = "td_interfaceCase",autoResultMap = true)
-public class InterFaceCasePO{
+public class InterfaceCasePO {
     @ApiModelProperty(value = "逻辑主键")
     @TableField(value = "id")
     private Long id;
@@ -45,6 +45,21 @@ public class InterFaceCasePO{
 ////    @TableField(value = "expectation", typeHandler = ExpectListTypeHandler.class)
 //    @Valid
 //    private List<ExpectationPO> expectationPOList;
+
+    @ApiModelProperty(value ="模拟http状态码")
+//    @TableField(value = "simulate_http_code",typeHandler = SimulateHttpCodePOTypeHandler.class)
+    @TableField(value = "simulate_http_code")
+    private SimulateHttpCodePO simulateHttpCode;
+
+    @ApiModelProperty(value ="操作管理")
+//    @TableField(value = "simulate_http_code",typeHandler = SimulateHttpCodePOTypeHandler.class)
+    @TableField(value = "operation_type")
+    private OperationTypePO operationType;
+
+    @ApiModelProperty(value ="操作管理")
+//    @TableField(value = "simulate_http_code",typeHandler = SimulateHttpCodePOTypeHandler.class)
+    @TableField(value = "operation_type")
+    private List<DynamicMsgPO> dynamicMessage;
 
 
 }

@@ -2,6 +2,7 @@ package com.example.demo.mock.entity.po;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.example.demo.mock.common.Handler.DynamicMsgListTypeHandler;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -41,24 +42,28 @@ public class InterfaceCasePO {
     private String response;
 
 
-//    @ApiModelProperty(value = "期望")
-////    @TableField(value = "expectation", typeHandler = ExpectListTypeHandler.class)
-//    @Valid
-//    private List<ExpectationPO> expectationPOList;
+    @ApiModelProperty(value = "期望")
+//    @TableField(value = "expectation", typeHandler = ExpectListTypeHandler.class)
+    @Valid
+    @TableField(value = "expectation")
+    private List<ExpectationPO> expectationList;
 
     @ApiModelProperty(value ="模拟http状态码")
+    @Valid
 //    @TableField(value = "simulate_http_code",typeHandler = SimulateHttpCodePOTypeHandler.class)
     @TableField(value = "simulate_http_code")
     private SimulateHttpCodePO simulateHttpCode;
 
     @ApiModelProperty(value ="操作管理")
-//    @TableField(value = "simulate_http_code",typeHandler = SimulateHttpCodePOTypeHandler.class)
+    @Valid
+//    @TableField(value = "simulate_http_code",typeHandler = OperationTypePOTypeHandler.class)
     @TableField(value = "operation_type")
     private OperationTypePO operationType;
 
     @ApiModelProperty(value ="操作管理")
-//    @TableField(value = "simulate_http_code",typeHandler = SimulateHttpCodePOTypeHandler.class)
-    @TableField(value = "operation_type")
+    @Valid
+//    @TableField(value = "dynamic_message",typeHandler = DynamicMsgListTypeHandler.class)
+    @TableField(value = "dynamic_message")
     private List<DynamicMsgPO> dynamicMessage;
 
 

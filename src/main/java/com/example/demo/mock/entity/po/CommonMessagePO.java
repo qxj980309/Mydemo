@@ -25,9 +25,9 @@ public class CommonMessagePO {
     @NotNull(message ="公共报文名称不能为空")
     private String name;
 
-    //@ApiModelProperty(value ="公共报文")
+    @ApiModelProperty(value ="公共报文")
     //@TableField(typeHandler = ExcelPOTypeHandler.class)
-    //private ExcelPO commonMessage;
+    private ExcelPO commonMessage;
 
     @ApiModelProperty(value ="功能描述")
     private String description;

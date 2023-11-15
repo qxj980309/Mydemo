@@ -1,6 +1,5 @@
 package com.example.demo.mock.common.enums;
 
-import lombok.Data;
 import lombok.Getter;
 import org.apache.commons.lang3.StringUtils;
 
@@ -19,7 +18,7 @@ public enum DataTypeEnum {
         this.code = code;
     }
 
-    public static String nameToCode(String name) {
+    public static String nameTypeCode(String name) {
         if (StringUtils.isBlank(name)) {
             return "";
         }
@@ -31,7 +30,7 @@ public enum DataTypeEnum {
         return "";
     }
 
-    public static String codeToName(String dataType){
+    public static String codeTypeName(String dataType){
         DataTypeEnum[] values = DataTypeEnum.values();
         for (DataTypeEnum value : values){
             if (value.getCode().equals(dataType)){

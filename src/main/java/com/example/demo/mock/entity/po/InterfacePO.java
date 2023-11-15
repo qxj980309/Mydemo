@@ -55,19 +55,19 @@ public class InterfacePO {
     @Valid
 //    @TableField(value = "is_related_request" ,typeHandler = IsRelatedPOTypeHandler.class)
     private IsRelatedPO isRelatedRequest;
-//
-//    @ApiModelProperty(value ="请求是晋关联公共报文")
-//    @Valid
+
+    @ApiModelProperty(value ="请求是晋关联公共报文")
+    @Valid
 //    @TableField(value = "is_related_response" ,typeHandler = IsRelatedPOTypeHandler.class)
-//    private IsRelatedPO isRelatedResponse;
+    private IsRelatedPO isRelatedResponse;
 //
-//    @ApiModelProperty(value ="请求报文")
+    @ApiModelProperty(value ="请求报文")
 //    @TableField(typeHandler = ExcelTypePOHandler.class)
-//    private ExcelPO requestBody;
+    private ExcelPO requestBody;
 //
-//    @ApiModelProperty(value ="响应报文")
+    @ApiModelProperty(value ="响应报文")
 //    @TableField(typeHandler = ExcelTypePOHandler.class)
-//    private ExcelPO responseBody;
+    private ExcelPO responseBody;
 
     @ApiModelProperty(value ="功能描述")
     private String description;

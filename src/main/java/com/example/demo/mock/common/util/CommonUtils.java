@@ -1,7 +1,6 @@
 package com.example.demo.mock.common.util;
 
 import cn.hutool.json.JSONObject;
-import cn.hutool.json.JSONUtil;
 import cn.hutool.json.XML;
 import com.alibaba.fastjson.JSON;
 import com.example.demo.mock.common.enums.DataTypeEnum;
@@ -74,11 +73,11 @@ public class CommonUtils {
     }
 
     /*
-    *  @param boduMap请求报文
+    *  @param bodyMap请求报文
     * @param paraName 参数名
     * @return 参数名内容
     * */
-    public static String getTxCode(Map<String, String>  bodyMap, String paraName) {
+    public static String getTxCode(Map<String, Object>  bodyMap, String paraName) {
         if (StringUtils.isBlank(paraName)) {
             return null;
         }
@@ -90,7 +89,7 @@ public class CommonUtils {
             log.error("参数配置错误:".concat(location).concat(",").concat(key));
             return null;
         }
-        if (LocationEnum.HEADER.getCode().equals(location){
+        if (LocationEnum.HEADER.getCode().equals(location)){
             // 从header中获取
             return headers.get(key);
         }

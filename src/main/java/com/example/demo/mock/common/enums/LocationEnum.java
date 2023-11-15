@@ -5,7 +5,7 @@ import lombok.Getter;
 @Getter
 public enum LocationEnum {
     HEADER("01", "header"),
-    B0DY( "02",  "body"),
+    BODY( "02",  "body"),
     QUERY("03", "query"),
     PATH("04", "path");
 

@@ -1,14 +1,11 @@
 package com.example.demo.mock.service.impl;
 
-
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.ObjectUtil;
-import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.example.demo.mock.common.entity.MockResponse;
-import com.example.demo.mock.common.util.CommonUtils;
-import com.example.demo.mock.common.util.DynamicMsgUtil;
+import com.example.demo.mock.common.util.*;
 import com.example.demo.mock.entity.po.*;
 import com.example.demo.mock.mapper.InterfaceCaseMapper;
 import com.example.demo.mock.mapper.RelatedApiMappeer;
@@ -22,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 public class CommonMockServiceImpl implements CommonMockService {
+
     private static final Logger log = LoggerFactory.getLogger(CommonMockServiceImpl.class);
 
     private final RelatedApiMappeer relatedApiMapper;
@@ -106,11 +104,11 @@ public class CommonMockServiceImpl implements CommonMockService {
                 .eq(RelatedApiPO::getCaseId,caseId);
         List<RelatedApiPO> list = relatedApiMapper.selectList(query);
         for (RelatedApiPO relatedApiPO : list) {
-            String value = JSONUtil.getValue(body, RelatedApiPO.getName());
-            log.info("存储接口关联数据: name=,value=",RelatedApiPO.qetName(),value);
-            if (StringUtils.isNotBlank(value) && !value.equals(RelatedApiPO.getValue())) {
+            String value = JSONUtil.getValue(body, relatedApiPO.getName());
+            log.info("存储接口关联数据: name=,value=",relatedApiPO.getName(),value);
+            if (StringUtils.isNotBlank(value) && !value.equals(relatedApiPO.getValue())) {
                 relatedApiPO.setValue(value);
-                relatedApiMapper,updateById(relatedApiPO);
+                relatedApiMapper.updateById(relatedApiPO);
             }
         }
     }
@@ -119,8 +117,8 @@ public class CommonMockServiceImpl implements CommonMockService {
     * 判断案例是否匹配
     * */
     private boolean isCaseMatching(Map<String, String> headers, Map<String, Object> bodyMap, InterfaceCasePO casePO) {
-        for (ExpectationPO expectationPO : casepogetExpectationlist()) {
-            String valve = CommonUtils.getValue(expectationPO.getlocation(), expectationPO.getKey(), headers, bodyMap);
+        for (ExpectationPO expectationPO : casePO.getExpectationList()) {
+            String valve = CommonUtils.getValue(expectationPO.getLocation(), expectationPO.getKey(), headers, bodyMap);
             if(!ExpectationRuleUtil.isRuleMatching(
                     expectationPO.getCondition(), valve, getTargetValue(expectationPO.getValue()))) {
                 return false;
@@ -137,7 +135,7 @@ public class CommonMockServiceImpl implements CommonMockService {
         Map<String, String> dynamicMap = DynamicMsgUtil.generateResponse(paramsMap, casePO.getDynamicMessage());
         String dynamicRes = DynamicMsgUtil.replaceResponse(casePO.getResponse(), dynamicMap, dataType);
         for (DynamicMsgPO dynamicMsgPO : casePO.getDynamicMessage()) {
-            // 自增 if (dynamicMsgpo.getRule().equals(Constants.DYNAMIC_RULE_02)
+            // 自增 if (dynamicMsgPo.getRule().equals(Constants.DYNAMIC_RULE_02)
             if (dynamicMsgPO.getRule().equals("02")) {
                 dynamicMsgPO.setParam(dynamicMap.get(dynamicMsgPO.getKey()));
             }
@@ -150,7 +148,7 @@ public class CommonMockServiceImpl implements CommonMockService {
         // #开头的数据取数据库中存储的值
         if (StringUtils.isNotBlank(key) && key.startsWith("#")) {
             LambdaQueryWrapper<RelatedApiPO> query = Wrappers.lambdaQuery();
-            query.select(RelatedApiPO::getValue).eq(RelatedApiPO::getkey, key.substring(1));
+            query.select(RelatedApiPO::getValue).eq(RelatedApiPO::getKey, key.substring(1));
             RelatedApiPO relatedApiPO = relatedApiMapper.selectOne(query);
             log.info("获取关联数据:key=,value=}",key,relatedApiPO.getValue());
             return relatedApiPO.getValue();
@@ -174,15 +172,10 @@ public class CommonMockServiceImpl implements CommonMockService {
         return null == httpstatus ? CONFIG_ERROR.value() : httpstatus.value();
     }
 
-
-
     private InterfacePO selectInterface(Long projectId, String txCode, String url) {
         InterfacePO interfacePO = interfaceService.selectInterface(projectId, txCode, url);
-        // Assert.notNull(interfacePO, ()-> new RuntimeException(MsgConstants.INTERFACE_NOT_FOUND))
+//         Assert.notNull(interfacePO, ()-> new RuntimeException(MsgConstants.INTERFACE_NOT_FOUND));
         Assert.notNull(interfacePO, ()-> new RuntimeException("访问接口不存在"));
         return interfacePO;
     }
-
-
-
 }

@@ -42,6 +42,15 @@ public class Constants {
     public static final String DATA_TYPE_JSON = "02";
 
     /*
+    * 请求报文预处理
+    * */
+    public static final String PRETREATMENT_CUT = "01";
+
+    public static final String STRUCTURE_JSONOBJECT ="01";
+
+    public static final String STRUCTURE_JSONARRAY ="02";
+
+    /*
     * 报文单位 :1M
     * */
     public static final int ONE_M = 1024 * 1024;
@@ -70,9 +79,5 @@ public class Constants {
     * 变长
     * */
     public static final String UNCERTAINLENGTH = "..";
-
-
-
-
 
 }

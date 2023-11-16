@@ -4,6 +4,7 @@ import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.example.demo.mock.common.Constants.MsgConstants;
 import com.example.demo.mock.common.entity.MockResponse;
 import com.example.demo.mock.common.util.*;
 import com.example.demo.mock.entity.po.*;
@@ -13,8 +14,10 @@ import com.example.demo.mock.service.*;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 import org.springframework.http.HttpStatus;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -32,28 +35,105 @@ public class CommonMockServiceImpl implements CommonMockService {
 
     private final InterfaceService interfaceService;
 
+    private final MockLogService mockLogService;
+
+    private final MacInterfaceService macInterfaceService;
+
+    private final MacService macService;
+
+    private final InterfaceOperationService interfaceOperationService;
+
     private final HttpStatus CONFIG_ERROR = HttpStatus.PRECONDITION_FAILED;
 
     public CommonMockServiceImpl(RelatedApiMappeer relatedApiMapper, InterfaceCaseMapper interfaceCaseMapper,
                                  InterfaceCaseService interfaceCaseService,CommonMessageService commonMessageService,
-                                 InterfaceService interfaceService){
+                                 InterfaceService interfaceService,MacInterfaceService macInterfaceService,
+                                 MacService macService,InterfaceOperationService interfaceOperationService,
+                                 MockLogService mockLogService){
         this.relatedApiMapper = relatedApiMapper;
         this.interfaceCaseMapper = interfaceCaseMapper;
         this.interfaceCaseService = interfaceCaseService;
         this.commonMessageService = commonMessageService;
         this.interfaceService = interfaceService;
+        this.macInterfaceService = macInterfaceService;
+        this.macService = macService;
+        this.interfaceOperationService =interfaceOperationService;
+        this.mockLogService = mockLogService;
     }
-
 
     @Override
-    public MockResponse mock(Long projectId, String txCode, String url, Map<String, String> headers, Map<String, Object> paramsMap) {
-        InterfacePO interfacePO = selectInterface(projectId, txCode, url);
+    public MockResponse mock(InterfacePO interfacePO, Map<String, String> headers, Map<String, Object> paramsMap) {
+        //异步-存数据至log表
+        String traceId = MDC.get("X-B3-TraceId");
+        mockLogService.saveMockLog(interfacePO,traceId);
+
+        //请求参数校验错误信息
         String errMsg = ValidatorUtils.checkParam(paramsMap, interfacePO, getCommonMessage(interfacePO));
-        log.info("请求参数校验错误信息:", errMsg);
+        if(errMsg.length()>0){
+            log.info("请求参数校验错误信息:{}", errMsg);
+            //返回报文
+            Map<String ,Object> paramFailResMap = new HashMap<>();
+            paramFailResMap.put("paramErrMag", MsgConstants.PARAM_CHECK_FAIL);
+            paramFailResMap.put("code",MsgConstants.PARAM_CHECK_FAIL_CODE);
+            paramFailResMap.put("message",errMsg);
+            return errRes(paramFailResMap,interfacePO.getDataType());
+        }
+
+        //校验MAC
+        Boolean checkMac = checkMac(interfacePO,paramsMap);
+        if (checkMac == false){
+            log.info("MAC校验错误信息:{}", errMsg);
+            //返回报文
+            Map<String ,Object> macFailResMap = new HashMap<>();
+            macFailResMap.put("paramErrMag", MsgConstants.MAC_CHECK_FAIL);
+            macFailResMap.put("code",MsgConstants.MAC_CHECK_FAIL_CODE);
+            macFailResMap.put("message",errMsg);
+            return errRes(macFailResMap,interfacePO.getDataType());
+        } else if (checkMac){
+            log.info("MAC校验成功");
+        }
+
+        //请求报文字段解析
+        InterfaceOperationPO interfaceOperationPO = interfaceOperationService.selectByInterfaceId(interfacePO.getId());
+        if (interfaceOperationPO != null && interfaceOperationPO.getFieldParseList() != null) {
+            log.info("请求报文字段解析");
+            for (FieldParsePO po : interfaceOperationPO.getFieldParseList()) {
+                InterfaceOperationUtil.fieldParse(paramsMap, po.getName(), po.getStructure());
+            }
+        }
+
+        //匹配多案例
         MockResponse mockResponse = getMockResponse(interfacePO, headers, paramsMap);
         mockResponse.setErrMsg(errMsg);
-        return mockResponse;
+
+        // 生成MAC
+        mockResponse.setBody(getMac(interfacep0, mockResponse.getBody()));
+
+        // 响应报文是否生成签名
+
+        if (interfaceOperationPO != null && interfaceOperationPO.getSignature() != null){
+            mockResponse.setBody(getSignatureRes(interfaceOperationPO.getSignature(),mockResponse.getBody(),interfacePO.getDataType()))
+        }
+            return mockResponse;
     }
+
+    private MockResponse errRes(Map<String, Object> macFailResMap, String dataType) {
+    }
+
+    private String getSignatureRes(SignaturePO signature, String body, String dataType) {
+    }
+
+    private Boolean checkMac(InterfacePO interfacePO, Map<String, Object> paramsMap) {
+    }
+//    @Override
+//    public MockResponse mock(Long projectId, String txCode, String url, Map<String, String> headers, Map<String, Object> paramsMap) {
+//        InterfacePO interfacePO = selectInterface(projectId, txCode, url);
+//        String errMsg = ValidatorUtils.checkParam(paramsMap, interfacePO, getCommonMessage(interfacePO));
+//        log.info("请求参数校验错误信息:", errMsg);
+//        MockResponse mockResponse = getMockResponse(interfacePO, headers, paramsMap);
+//        mockResponse.setErrMsg(errMsg);
+//        return mockResponse;
+//    }
 
     @Override
     public MockResponse mock(Long projectId, String txCode, Map<String, Object> paramsMap) {

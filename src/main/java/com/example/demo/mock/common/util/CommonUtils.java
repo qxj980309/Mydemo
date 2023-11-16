@@ -34,15 +34,15 @@ public class CommonUtils {
         return ret.deleteCharAt(ret.length() - 1).toString();
     }
     /*
-    *解析body，将json或者xml转换为Map<String，bject>
+    *解析body，将json或者xml转换为Map<String，Object>
     *法
     */
     public static Map<String, Object> parseBody(String contentType, String body) {
         try{
-            if (null == contentType || contentType.contains(DataTypeEnum.json.getName())){
+            if (null == contentType || contentType.contains(DataTypeEnum.json.getName()) || contentType.contains("text/plain")){
                 // 默认为json格式
                 return JSON.parseObject(body);
-            } else if (contentType.contains(DataTypeEnum.XML.getName())) {
+            } else if (contentType.contains(DataTypeEnum.XML.getName()) || contentType.contains("text/xml")) {
                 JSONObject jsonobject = XML.toJSONObject(body);
                 Object root = jsonobject.get("R00T");
                 Object root1 = jsonobject.get("root");

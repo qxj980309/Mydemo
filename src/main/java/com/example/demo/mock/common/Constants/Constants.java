@@ -35,6 +35,16 @@ public class Constants {
     public static final String DYNAMIC_RULE_03 = "03";
 
     /*
+     * 指定位数自增
+     * */
+    public static final String DYNAMIC_RULE_04 = "04";
+
+    /*
+    * 拼接-自增
+    * */
+    public static final String DYNAMIC_RULE_05 = "05";
+
+    /*
     * 报文格式
     * */
     public static final String DATA_TYPE_XML = "01";
@@ -79,5 +89,15 @@ public class Constants {
     * 变长
     * */
     public static final String UNCERTAINLENGTH = "..";
+
+    /*
+    * 特殊字符开头
+    * */
+    public static final String DATABASE_PREFIX = "#";
+    /*
+     * MAC规范适用范围
+     * */
+    public static final String MAC_APPLICATION_SCOPE_REQUEST = "01";
+    public static final String MAC_APPLICATION_SCOPE_RESPONSE = "02";
 
 }

@@ -7,6 +7,10 @@ public class ExpectationRuleUtil {
 
     private ExpectationRuleUtil() {}
 
+    public static String[] splitKeys(String target){
+        return StringUtils.split(StringUtils.replace(target,",",","),",");
+    }
+
     /*
     * 判断期望是否匹配
     *  @param condition 条件

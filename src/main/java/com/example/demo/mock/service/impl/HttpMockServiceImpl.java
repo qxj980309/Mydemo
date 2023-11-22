@@ -39,8 +39,9 @@ public class HttpMockServiceImpl extends CommonMockServiceImpl implements HttpMo
                                InterfaceCaseService interfaceCaseService, CommonMessageService commonMessageService,
                                InterfaceService interfaceService, MacInterfaceService macInterfaceService,
                                MacService macService,ProjectService projectService,RouteService routeService,
-                               InterfaceOperationService interfaceOperationService,MockLogService mockLogService) {
-        super(relatedApiMapper, interfaceCaseMapper, interfaceCaseService, commonMessageService, interfaceService,
+                               InterfaceOperationService interfaceOperationService,MockLogService mockLogService,
+                               RelatedDataService relatedDataService) {
+        super(relatedDataService,relatedApiMapper, interfaceCaseMapper, interfaceCaseService, commonMessageService, interfaceService,
                 macInterfaceService, macService,interfaceOperationService,mockLogService);
         this.projectService = projectService;
         this.routeService = routeService;
@@ -90,7 +91,7 @@ public class HttpMockServiceImpl extends CommonMockServiceImpl implements HttpMo
         String txCode = CommonUtils.getTxCode(routePO, headers, paramsMap);
         //通过路由定位接口
         InterfacePO interfacePO = selectInterface(projectPO.getId(),txCode,urlEntity.getUrl());
-        return mock(projectPO.getId(), txCode, urlEntity.getUrl(), headers, paramsMap);
+        return mock(interfacePO, headers, paramsMap);
     }
 
     /*

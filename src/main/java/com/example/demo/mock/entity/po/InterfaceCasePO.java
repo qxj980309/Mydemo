@@ -66,5 +66,10 @@ public class InterfaceCasePO {
     @TableField(value = "dynamic_message")
     private List<DynamicMsgPO> dynamicMessage;
 
+    @ApiModelProperty(value ="自定义响应头")
+    @Valid
+//    @TableField(value = "response_header",typeHandler = ResponseHeaderListTypeHandler.class)
+    @TableField(value = "response_header")
+    private List<ResponseHeaderPO> responseHeaderList;
 
 }

@@ -22,4 +22,10 @@ public class DynamicMsgPO {
     @ApiModelProperty(value = "动态报文key")
     private String param;
 
+    @ApiModelProperty(value = "拼接字符")
+    private String str;
+
+    @ApiModelProperty(value = "指定位数")
+    private String digits;
+
 }

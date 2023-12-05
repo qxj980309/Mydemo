@@ -2,6 +2,8 @@ package com.example.demo.mock.common.util;
 
 
 import com.example.demo.mock.common.Constants.Constants;
+import com.example.demo.mock.common.enums.PlatformCodeEnum;
+import com.example.demo.mock.common.exception.CustomResponseException;
 import com.example.demo.mock.entity.po.CommonMessagePO;
 import com.example.demo.mock.entity.po.ExcelPO;
 import com.example.demo.mock.entity.po.InterfacePO;
@@ -44,14 +46,14 @@ public class ValidatorUtils {
     *  @param commonMessageP0 公共报文信息
     *  @return 校验结果
     * */
-    public static String checkParam(Map<String , Object> bodyMap, InterfacePO interfacePO, CommonMessagePO commonMessagePO){
+    public static void checkParam(Map<String , Object> bodyMap, InterfacePO interfacePO, CommonMessagePO commonMessagePO){
         ExcelPO requestBody = interfacePO.getRequestBody();
         StringBuilder errMsg = new StringBuilder();
         if (requestBody != null) {
             List<Map<String, String>> bodyList = requestBody.getBodyList();
             if (CollectionUtils.isEmpty(bodyList) || bodyList.size() == 0){
                 log.info("没有校验规则");
-                return "";
+                return ;
             }
             ExcelPO checkAll = requestBody;
             //判断是否关联公共报文，若关联，合并后再进行参数校验
@@ -60,8 +62,13 @@ public class ValidatorUtils {
             }
             List<TreeNode> treeNodes = listToTree(checkAll);
             checkNode(treeNodes,bodyMap,errMsg);
+
         }
-        return errMsg.toString();
+//        return errMsg.toString();
+        if (errMsg.toString().length()>0){
+            log.info("请求参数校验失败");
+            throw  new CustomResponseException(PlatformCodeEnum.FZ_M0001.getCode(),PlatformCodeEnum.FZ_M0001.getMessage(),SaveDataTypeThread.getInstance().getDataType());
+        }
     }
 
 

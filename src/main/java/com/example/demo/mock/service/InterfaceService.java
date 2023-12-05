@@ -16,6 +16,16 @@ public interface InterfaceService {
     InterfacePO selectInterface(Long projectId,String txCode,String url);
 
     /*
+     * 通过url 和 txCode 匹配接口
+     *
+     * @param  projectId  工程id
+     * @param  txCode  接口号
+     * @param  url   url
+     * @return 对象
+     * */
+    List<InterfacePO> selectInterface1(Long projectId,String txCode,String url);
+
+    /*
     * 条件查询多条数据
     *
     * @interfacePO 实例对象

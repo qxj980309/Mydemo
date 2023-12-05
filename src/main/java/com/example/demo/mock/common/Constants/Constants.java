@@ -61,6 +61,22 @@ public class Constants {
     public static final String STRUCTURE_JSONARRAY ="02";
 
     /*
+    * 签名算法
+    * */
+    public static final String SIGNATURE_ALGORITHM_SHA256 = "01";
+
+    public static final String SIGNATURE_ALGORITHM_SHA1 = "02";
+
+    /*
+     * 签名值拼接位置
+     * */
+    public static final String SIGNATURE_LOCATION_BEGIN = "01";
+
+    public static final String SIGNATURE_LOCATION_END = "02";
+
+    public static final String SIGNATURE_LOCATION_REPLACE = "03";
+
+    /*
     * 报文单位 :1M
     * */
     public static final int ONE_M = 1024 * 1024;
@@ -99,5 +115,6 @@ public class Constants {
      * */
     public static final String MAC_APPLICATION_SCOPE_REQUEST = "01";
     public static final String MAC_APPLICATION_SCOPE_RESPONSE = "02";
+
 
 }

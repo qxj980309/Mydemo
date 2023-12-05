@@ -3,9 +3,11 @@ package com.example.demo.mock.service;
 import com.example.demo.mock.common.entity.MockResponse;
 import com.example.demo.mock.entity.po.CommonMessagePO;
 import com.example.demo.mock.entity.po.InterfacePO;
+import org.springframework.stereotype.Repository;
 
 import java.util.Map;
 
+@Repository
 public interface CommonMockService {
     /*
     * 进入Mock方法

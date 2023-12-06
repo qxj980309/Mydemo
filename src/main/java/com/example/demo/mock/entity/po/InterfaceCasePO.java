@@ -2,7 +2,7 @@ package com.example.demo.mock.entity.po;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.example.demo.mock.common.Handler.DynamicMsgListTypeHandler;
+import com.example.demo.mock.common.Handler.*;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -43,33 +43,28 @@ public class InterfaceCasePO {
 
 
     @ApiModelProperty(value = "期望")
-//    @TableField(value = "expectation", typeHandler = ExpectListTypeHandler.class)
+    @TableField(value = "expectation", typeHandler = ExpectListTypeHandler.class)
     @Valid
-    @TableField(value = "expectation")
     private List<ExpectationPO> expectationList;
 
     @ApiModelProperty(value ="模拟http状态码")
     @Valid
-//    @TableField(value = "simulate_http_code",typeHandler = SimulateHttpCodePOTypeHandler.class)
-    @TableField(value = "simulate_http_code")
+    @TableField(value = "simulate_http_code",typeHandler = SimulateHttpCodePOTypeHandler.class)
     private SimulateHttpCodePO simulateHttpCode;
 
     @ApiModelProperty(value ="操作管理")
     @Valid
-//    @TableField(value = "simulate_http_code",typeHandler = OperationTypePOTypeHandler.class)
-    @TableField(value = "operation_type")
+    @TableField(value = "simulate_http_code",typeHandler = OperationTypePOTypeHandler.class)
     private OperationTypePO operationType;
 
     @ApiModelProperty(value ="操作管理")
     @Valid
-//    @TableField(value = "dynamic_message",typeHandler = DynamicMsgListTypeHandler.class)
-    @TableField(value = "dynamic_message")
+    @TableField(value = "dynamic_message",typeHandler = DynamicMsgListTypeHandler.class)
     private List<DynamicMsgPO> dynamicMessage;
 
     @ApiModelProperty(value ="自定义响应头")
     @Valid
-//    @TableField(value = "response_header",typeHandler = ResponseHeaderListTypeHandler.class)
-    @TableField(value = "response_header")
+    @TableField(value = "response_header",typeHandler = ResponseHeaderListTypeHandler.class)
     private List<ResponseHeaderPO> responseHeaderList;
 
 }

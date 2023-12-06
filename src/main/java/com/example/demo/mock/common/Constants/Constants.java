@@ -116,5 +116,28 @@ public class Constants {
     public static final String MAC_APPLICATION_SCOPE_REQUEST = "01";
     public static final String MAC_APPLICATION_SCOPE_RESPONSE = "02";
 
+    /*
+    * MAC数据源空格处理
+    * */
+    public static final String SPACE_PROCESS_FIRST_LAST = "01";
+    public static final String SPACE_PROCESS_CONTINUOUS = "02";
+
+    /*
+     * MAC数据源拼接方式
+     * */
+    public static final String SPLICE_TYPE_COMPACT = "01";
+    public static final String SPLICE_TYPE_SPACE= "02";
+
+    /*
+    * MAC 构成规则 保留字符
+    */
+    public static final String RESERVED_CHAR_LETTER = "01";
+    public static final String RESERVED_CHAR_NUMBER = "02";
+    public static final String RESERVED_CHAR_SPACE = "03";
+    public static final String RESERVED_CHAR_COMMA = "04";
+    public static final String RESERVED_CHAR_NEGATIVE = "05";
+    public static final String RESERVED_CHAR_POSITIVE = "06";
+    public static final String RESERVED_CHAR_SPOT = "07";
+
 
 }

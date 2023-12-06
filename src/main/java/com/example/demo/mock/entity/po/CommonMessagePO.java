@@ -1,6 +1,8 @@
 package com.example.demo.mock.entity.po;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.example.demo.mock.common.Handler.ExcelPOTypeHandler;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -26,7 +28,7 @@ public class CommonMessagePO {
     private String name;
 
     @ApiModelProperty(value ="公共报文")
-    //@TableField(typeHandler = ExcelPOTypeHandler.class)
+    @TableField(typeHandler = ExcelPOTypeHandler.class)
     private ExcelPO commonMessage;
 
     @ApiModelProperty(value ="功能描述")

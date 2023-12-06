@@ -2,6 +2,8 @@ package com.example.demo.mock.entity.po;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.example.demo.mock.common.Handler.ExcelPOTypeHandler;
+import com.example.demo.mock.common.Handler.IsRelatedPOTypeHandler;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -53,20 +55,20 @@ public class InterfacePO {
 
     @ApiModelProperty(value ="请求是晋关联公共报文")
     @Valid
-//    @TableField(value = "is_related_request" ,typeHandler = IsRelatedPOTypeHandler.class)
+    @TableField(value = "is_related_request" ,typeHandler = IsRelatedPOTypeHandler.class)
     private IsRelatedPO isRelatedRequest;
 
     @ApiModelProperty(value ="请求是晋关联公共报文")
     @Valid
-//    @TableField(value = "is_related_response" ,typeHandler = IsRelatedPOTypeHandler.class)
+    @TableField(value = "is_related_response" ,typeHandler = IsRelatedPOTypeHandler.class)
     private IsRelatedPO isRelatedResponse;
-//
+
     @ApiModelProperty(value ="请求报文")
-//    @TableField(typeHandler = ExcelTypePOHandler.class)
+    @TableField(typeHandler = ExcelPOTypeHandler.class)
     private ExcelPO requestBody;
-//
+
     @ApiModelProperty(value ="响应报文")
-//    @TableField(typeHandler = ExcelTypePOHandler.class)
+    @TableField(typeHandler = ExcelPOTypeHandler.class)
     private ExcelPO responseBody;
 
     @ApiModelProperty(value ="功能描述")

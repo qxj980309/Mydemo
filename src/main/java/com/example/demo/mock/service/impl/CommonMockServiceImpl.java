@@ -362,7 +362,7 @@ public class CommonMockServiceImpl implements CommonMockService {
      *  @return
      * */
     private String getSignatureRes(SignaturePO signaturePO, String response, String dataType) {
-        String signatureValue = getSignatureValue(signaturePO.getAlgorithm(), signaturePO.getsecretkey(), response);
+        String signatureValue = getSignatureValue(signaturePO.getAlgorithm(), signaturePO.getSecretKey(), response);
         switch (signaturePO.getLocation()) {
             case Constants.SIGNATURE_LOCATION_BEGIN:
                 return signatureValue.concat(response);

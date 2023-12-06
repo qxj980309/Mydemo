@@ -1,6 +1,6 @@
 package com.example.demo.mock.common.util;
 
-import com.example.demo.mock.common.Constants.Constants;
+import com.example.demo.mock.common.constants.Constants;
 import com.example.demo.mock.entity.po.CompositionRulePO;
 import com.example.demo.mock.entity.po.DataElementExcelPO;
 import org.json.JSONArray;

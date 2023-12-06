@@ -1,4 +1,4 @@
 package com.example.demo.mock.service;
 
-public interface RelatedApiMapper {
+public interface RelatedApiService {
 }

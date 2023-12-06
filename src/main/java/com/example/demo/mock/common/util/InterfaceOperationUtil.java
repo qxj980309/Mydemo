@@ -1,7 +1,7 @@
 package com.example.demo.mock.common.util;
 
 
-import com.example.demo.mock.common.Constants.Constants;
+import com.example.demo.mock.common.constants.Constants;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.JSONArray;
 import org.slf4j.Logger;

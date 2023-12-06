@@ -1,7 +1,7 @@
 package com.example.demo.mock.common.util;
 
 
-import com.example.demo.mock.common.Constants.Constants;
+import com.example.demo.mock.common.constants.Constants;
 import com.example.demo.mock.common.enums.PlatformCodeEnum;
 import com.example.demo.mock.common.exception.CustomResponseException;
 import com.example.demo.mock.entity.po.CommonMessagePO;

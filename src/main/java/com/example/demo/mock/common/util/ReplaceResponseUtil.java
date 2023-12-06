@@ -1,7 +1,7 @@
 package com.example.demo.mock.common.util;
 
 import cn.hutool.core.util.XmlUtil;
-import com.example.demo.mock.common.Constants.Constants;
+import com.example.demo.mock.common.constants.Constants;
 import com.example.demo.mock.common.enums.DataTypeEnum;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,4 +1,4 @@
-package com.example.demo.mock.common.Constants;
+package com.example.demo.mock.common.constants;
 
 public class Constants {
     private Constants(){

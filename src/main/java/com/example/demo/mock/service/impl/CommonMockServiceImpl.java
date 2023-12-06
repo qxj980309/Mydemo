@@ -1,11 +1,7 @@
 package com.example.demo.mock.service.impl;
 
-import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.ObjectUtil;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.example.demo.mock.common.Constants.Constants;
-import com.example.demo.mock.common.Constants.MsgConstants;
+import com.example.demo.mock.common.constants.Constants;
 import com.example.demo.mock.common.entity.MockResponse;
 import com.example.demo.mock.common.enums.DataTypeEnum;
 import com.example.demo.mock.common.enums.PlatformCodeEnum;
@@ -16,16 +12,12 @@ import com.example.demo.mock.entity.po.*;
 import com.example.demo.mock.mapper.InterfaceCaseMapper;
 import com.example.demo.mock.mapper.RelatedApiMappeer;
 import com.example.demo.mock.service.*;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 import org.springframework.http.HttpStatus;
 
-import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -35,6 +27,8 @@ public class CommonMockServiceImpl implements CommonMockService {
     private static final Logger log = LoggerFactory.getLogger(CommonMockServiceImpl.class);
 
     private static MacInterfaceService macInterfaceService;
+
+    private static MacService macService;
 
     private final RelatedDataService relatedDataService;
 
@@ -49,8 +43,6 @@ public class CommonMockServiceImpl implements CommonMockService {
     private final InterfaceService interfaceService;
 
     private final MockLogService mockLogService;
-
-    private static MacService macService;
 
     private final InterfaceOperationService interfaceOperationService;
 

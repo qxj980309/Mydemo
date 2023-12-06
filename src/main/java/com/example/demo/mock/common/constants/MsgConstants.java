@@ -1,4 +1,4 @@
-package com.example.demo.mock.common.Constants;
+package com.example.demo.mock.common.constants;
 
 public class MsgConstants {
     public final static String INTERFACE_NOT_FOUND = "访问接口不存在";

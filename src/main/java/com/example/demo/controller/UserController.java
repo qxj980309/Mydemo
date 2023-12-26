@@ -1,16 +1,14 @@
 package com.example.demo.controller;
 
-
 import com.example.demo.common.result.Result;
 import com.example.demo.entity.User;
 import com.example.demo.service.UserService;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.annotations.Api;
 import javax.annotation.Resource;
-import java.util.List;
-import java.util.Map;
-
+import javax.servlet.http.HttpServletRequest;
+import com.example.demo.common.Util.JWTUtil;
+import java.util.Objects;
 
 @Api(tags = "用户接口类")
 @RestController
@@ -19,6 +17,9 @@ public class UserController {
     //MyBatis
     @Resource
     private UserService userService;
+
+    @Resource
+    private JWTUtil jwtUtil;
 
     @PostMapping("/add")
     public Result add(User user){
@@ -41,6 +42,31 @@ public class UserController {
     @GetMapping("/list")
     public Result<User> list() {
         return userService.finaAll();
+    }
+
+    /*
+    * 测试一下jwt
+    * */
+    @GetMapping("/jwt/test")
+    public User jwtTest(HttpServletRequest request){
+        String token = request.getHeader("Token");
+        User user = jwtUtil.verify(token);
+        return user;
+    }
+
+    /*
+    * login方法生成一下Token
+    * */
+    @GetMapping("/jwt/login")
+    public String jwtLogin(String username,String password){
+        User user = userService.getByUsername(username);
+        if(Objects.nonNull(user)) {
+            if (!user.getPassword().equals(password)) {
+                return "密码错误！";
+            }
+        }
+        String token = jwtUtil.createToken(user);
+        return token;
     }
 
 }

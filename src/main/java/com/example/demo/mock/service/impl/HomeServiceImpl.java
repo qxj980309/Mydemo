@@ -1,6 +1,7 @@
 package com.example.demo.mock.service.impl;
 
 import com.example.demo.mock.entity.po.ProjectPO;
+import com.example.demo.mock.entity.vo.HomeContVO;
 import com.example.demo.mock.entity.vo.ProVO;
 import com.example.demo.mock.entity.vo.ProjectCountVo;
 import com.example.demo.mock.mapper.InterfaceCaseMapper;
@@ -26,6 +27,11 @@ public class HomeServiceImpl implements HomeService {
 
     @Resource
     private InterfaceCaseMapper interfaceCaseMapper;
+
+    @Override
+    public HomeContVO selectCount() {
+        return null;
+    }
 
 //    @Override
 //    public ProjectCountVo allCount(){
@@ -174,6 +180,5 @@ public class HomeServiceImpl implements HomeService {
 
         return projectCountVoList;
     }
-
 
 }

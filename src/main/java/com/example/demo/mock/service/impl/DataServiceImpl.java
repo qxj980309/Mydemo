@@ -31,6 +31,11 @@ public class DataServiceImpl implements DataService {
     private String pattern = "yyyy-MM-dd";
 
     @Override
+    public void dataStatistic() {
+
+    }
+
+    @Override
     public IPage<DataVo> selectApi(SearchVo searchVo, Integer pageIndex, Integer pageSize) {
         return null;
     }

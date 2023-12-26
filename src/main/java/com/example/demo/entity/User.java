@@ -29,15 +29,15 @@ public class User implements Serializable{
      * 用户 id
      */
     @TableId(type = IdType.AUTO)
-    @TableField(value = "userId")
+    @TableField(value = "user_id")
 //    @NotNull(message = "id不能为空")
-    private Integer userid;
+    private Integer userId;
     /**
      * 用户名
      */
-    @TableField(value = "userName")
+    @TableField(value = "user_name")
 //    @NotBlank(message = "名字不能为空")
-    private String username;
+    private String userName;
     /**
      * 年龄
      */
@@ -63,8 +63,8 @@ public class User implements Serializable{
     /**
      * 用户权限ID, 0-游客, 1-普通用户, 2-会员用户, 3-管理员
      */
-    @TableField(value = "roleId")
-    private Integer roleid;
+    @TableField(value = "role_id")
+    private Integer roleId;
     /**
      * 用户权限, 0-游客, 1-普通用户, 2-会员用户, 3-管理员
      */
@@ -72,25 +72,25 @@ public class User implements Serializable{
     /**
      * 注册日期
      */
-    @TableField(value = "createTime")
+    @TableField(value = "create_time")
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT-8")
 //    @DateTimeFormat(pattern="yyyy-MM-dd")
-    private Date createtime;
+    private Date createTime;
 
-    public Integer getUserid() {
-        return userid;
+    public Integer getUserId() {
+        return userId;
     }
 
-    public void setUserid(Integer userid) {
-        this.userid = userid;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
-    public String getUsername() {
-        return username;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public Integer getAge() {
@@ -133,12 +133,12 @@ public class User implements Serializable{
         this.state = state;
     }
 
-    public Integer getRoleid() {
-        return roleid;
+    public Integer getRoleId() {
+        return roleId;
     }
 
-    public void setRoleid(Integer roleid) {
-        this.roleid = roleid;
+    public void setRoleId(Integer roleid) {
+        this.roleId = roleid;
     }
 
     public Integer getRole() {
@@ -149,12 +149,12 @@ public class User implements Serializable{
         this.role = role;
     }
 
-    public Date getCreatetime() {
-        return createtime;
+    public Date getCreateTime() {
+        return createTime;
     }
 
-    public void setCreatetime(Date createtime) {
-        this.createtime = createtime;
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 
     @Override
@@ -162,36 +162,38 @@ public class User implements Serializable{
         if (this == o) return true;
         if (!(o instanceof User)) return false;
         User user = (User) o;
-        return getUserid().equals(user.getUserid()) &&
-                getUsername().equals(user.getUsername()) &&
+        return getUserId().equals(user.getUserId()) &&
+                getUserName().equals(user.getUserName()) &&
                 getAge().equals(user.getAge()) &&
                 getMobile().equals(user.getMobile()) &&
                 getEmail().equals(user.getEmail()) &&
                 getPassword().equals(user.getPassword()) &&
                 getState().equals(user.getState()) &&
-                getRoleid().equals(user.getRoleid()) &&
+                getRoleId().equals(user.getRoleId()) &&
                 getRole().equals(user.getRole()) &&
-                getCreatetime().equals(user.getCreatetime());
+                getCreateTime().equals(user.getCreateTime());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getUserid(), getUsername(), getAge(), getMobile(), getEmail(), getPassword(), getState(), getRoleid(), getRole(), getCreatetime());
+        return Objects.hash(getUserId(), getUserName(), getAge(), getMobile(),
+                getEmail(), getPassword(), getState(), getRoleId(), getRole(),
+                getCreateTime());
     }
 
     @Override
     public String toString() {
         return "User{" +
-                "userid=" + userid +
-                ", username='" + username + '\'' +
+                "userId=" + userId +
+                ", userName='" + userName + '\'' +
                 ", age=" + age +
                 ", mobile='" + mobile + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", state=" + state +
-                ", roleid=" + roleid +
+                ", roleId=" + roleId +
                 ", role=" + role +
-                ", createtime=" + createtime +
+                ", createTime=" + createTime +
                 '}';
     }
 

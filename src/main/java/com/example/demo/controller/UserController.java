@@ -8,7 +8,6 @@ import io.swagger.annotations.Api;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import com.example.demo.common.Util.JWTUtil;
-import java.util.Objects;
 
 @Api(tags = "用户接口类")
 @RestController
@@ -59,12 +58,12 @@ public class UserController {
     * */
     @GetMapping("/jwt/login")
     public String jwtLogin(String username,String password){
-        User user = userService.getByUsername(username);
-        if(Objects.nonNull(user)) {
-            if (!user.getPassword().equals(password)) {
-                return "密码错误！";
-            }
-        }
+        User user = userService.getByUsername(username,password);
+//        if(Objects.nonNull(user)) {
+//            if (!user.getPassword().equals(password)) {
+//                return "密码错误！";
+//            }
+//        }
         String token = jwtUtil.createToken(user);
         return token;
     }

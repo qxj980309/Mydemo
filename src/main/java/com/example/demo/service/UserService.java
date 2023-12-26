@@ -14,5 +14,5 @@ public interface UserService extends IService<User>{
 //  List<User> list();
   Result<User> finaAll();
 
-  User getByUsername(String username);
+  User getByUsername(String username,String password);
 }

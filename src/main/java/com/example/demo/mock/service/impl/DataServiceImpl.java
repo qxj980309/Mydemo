@@ -30,6 +30,7 @@ public class DataServiceImpl implements DataService {
 
     private String pattern = "yyyy-MM-dd";
 
+
     @Override
     public void dataStatistic() {
 

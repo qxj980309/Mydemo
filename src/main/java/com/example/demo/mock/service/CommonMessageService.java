@@ -1,8 +1,7 @@
 package com.example.demo.mock.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.example.demo.common.result.Result;
-import com.example.demo.mock.common.entity.MockResponse;
+import com.example.demo.myself.common.result.Result;
 import com.example.demo.mock.entity.po.CommonMessagePO;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.multipart.MultipartFile;

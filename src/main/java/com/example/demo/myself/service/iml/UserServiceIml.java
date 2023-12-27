@@ -1,13 +1,13 @@
-package com.example.demo.service.iml;
+package com.example.demo.myself.service.iml;
 
 import cn.hutool.crypto.SecureUtil;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.example.demo.common.result.Result;
-import com.example.demo.entity.User;
-import com.example.demo.mapper.UserMapper;
-import com.example.demo.service.UserService;
+import com.example.demo.myself.common.result.Result;
+import com.example.demo.myself.entity.User;
+import com.example.demo.myself.mapper.UserMapper;
+import com.example.demo.myself.service.UserService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;

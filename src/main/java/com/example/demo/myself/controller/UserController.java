@@ -1,13 +1,13 @@
-package com.example.demo.controller;
+package com.example.demo.myself.controller;
 
-import com.example.demo.common.result.Result;
-import com.example.demo.entity.User;
-import com.example.demo.service.UserService;
+import com.example.demo.myself.common.result.Result;
+import com.example.demo.myself.entity.User;
+import com.example.demo.myself.service.UserService;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.annotations.Api;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import com.example.demo.common.Util.JWTUtil;
+import com.example.demo.myself.common.Util.JWTUtil;
 
 @Api(tags = "用户接口类")
 @RestController

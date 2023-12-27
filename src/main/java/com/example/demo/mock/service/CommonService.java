@@ -1,8 +1,11 @@
 package com.example.demo.mock.service;
 
 import com.example.demo.mock.entity.po.CommonPO;
+import org.springframework.stereotype.Repository;
+
 import java.util.function.Function;
 
+@Repository
 public interface CommonService {
     /*
     * 判斯当前用户是否和创建用户一致

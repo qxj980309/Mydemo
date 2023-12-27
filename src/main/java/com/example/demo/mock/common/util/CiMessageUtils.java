@@ -1,6 +1,6 @@
 package com.example.demo.mock.common.util;
 
-import com.example.demo.common.exception.BizException;
+import com.example.demo.myself.common.exception.BizException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

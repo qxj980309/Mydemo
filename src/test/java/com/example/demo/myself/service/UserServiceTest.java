@@ -1,14 +1,12 @@
-package com.example.demo.service;
+package com.example.demo.myself.service;
 
 import com.alibaba.fastjson.JSONObject;
-import com.example.demo.common.result.Result;
-import com.example.demo.entity.User;
+import com.example.demo.myself.common.result.Result;
+import com.example.demo.myself.entity.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.annotation.Resource;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class UserServiceTest {

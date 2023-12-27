@@ -1,15 +1,17 @@
 package com.example.demo.mock.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.example.demo.common.result.Result;
+import com.example.demo.myself.common.result.Result;
 import com.example.demo.mock.entity.po.CommonRulePO;
 import com.example.demo.mock.entity.vo.CommonRuleUseVO;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 /*
 * 规则维护表(tb_common_rule)服务接口
 * */
+@Repository
 public interface CommonRuleService {
     /*
     * 通过TD查询单杂数船

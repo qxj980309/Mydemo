@@ -103,7 +103,7 @@
         <appender-ref ref="DEBUG" />
     </root>
     <!--打印sql-->
-    <logger name="com.example.demo.mapper" level="DEBUG" />
+    <logger name="com.example.demo.myself.mapper" level="DEBUG" />
     <logger name="com.example.demo.mock.mapper" level="DEBUG" />
 
 

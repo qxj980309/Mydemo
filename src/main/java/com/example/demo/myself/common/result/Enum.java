@@ -1,4 +1,4 @@
-package com.example.demo.common.result;
+package com.example.demo.myself.common.result;
 
 public enum Enum {
     SUCCESS(200,"成功");

@@ -19,7 +19,7 @@ import java.util.List;
 @TableName(value = "td_interfaceCase",autoResultMap = true)
 public class InterfaceCasePO {
     @ApiModelProperty(value = "逻辑主键")
-    @TableField(value = "id")
+//    @TableField(value = "id")
     private Long id;
 
     @ApiModelProperty(value = "接口1d")

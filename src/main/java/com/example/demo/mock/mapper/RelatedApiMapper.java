@@ -5,5 +5,5 @@ import com.example.demo.mock.entity.po.RelatedApiPO;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
-public interface RelatedApiMappeer extends BaseMapper<RelatedApiPO> {
+public interface RelatedApiMapper extends BaseMapper<RelatedApiPO> {
 }

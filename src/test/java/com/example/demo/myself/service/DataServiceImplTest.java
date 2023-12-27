@@ -1,4 +1,4 @@
-package com.example.demo.service;
+package com.example.demo.myself.service;
 
 import com.example.demo.mock.entity.vo.SearchVo;
 import com.example.demo.mock.service.DataService;

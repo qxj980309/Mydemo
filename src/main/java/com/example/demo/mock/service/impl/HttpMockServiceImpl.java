@@ -13,43 +13,67 @@ import com.example.demo.mock.entity.po.InterfacePO;
 import com.example.demo.mock.entity.po.ProjectPO;
 import com.example.demo.mock.entity.po.RoutePO;
 import com.example.demo.mock.mapper.InterfaceCaseMapper;
-import com.example.demo.mock.mapper.RelatedApiMappeer;
+import com.example.demo.mock.mapper.RelatedApiMapper;
 import com.example.demo.mock.service.*;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Service
+@Transactional
 public class HttpMockServiceImpl extends CommonMockServiceImpl implements HttpMockService {
     private static final Logger log = LoggerFactory.getLogger(HttpMockServiceImpl.class);
-//    @Resource
-//    private  ProjectService projectService;
-//    @Resource
-//    private  RouteService routeService;
 
-    private final ProjectService projectService;
+//    public HttpMockServiceImpl(RelatedDataService relatedDataService, RelatedApiMapper relatedApiMapper,
+//                               InterfaceCaseMapper interfaceCaseMapper, InterfaceCaseService interfaceCaseService,
+//                               CommonMessageService commonMessageService, InterfaceService interfaceService,
+//                               MacInterfaceService macInterfaceService, MacService macService,
+//                               InterfaceOperationService interfaceOperationService, MockLogService mockLogService) {
+//        super(relatedDataService, relatedApiMapper, interfaceCaseMapper, interfaceCaseService, commonMessageService,
+//                interfaceService, macInterfaceService, macService, interfaceOperationService, mockLogService);
+//    }
+    @Resource
+    private  ProjectService projectService;
+    @Resource
+    private  RouteService routeService;
+    @Resource
+    private  InterfaceService interfaceService;
 
-    private final RouteService routeService;
+    @Resource
+    private RelatedDataService relatedDataService;
 
-    private final InterfaceService interfaceService;
+    @Resource
+    private InterfaceOperationService interfaceOperationService;
 
-    private final InterfaceOperationService interfaceOperationService;
-
-    public HttpMockServiceImpl(RelatedApiMappeer relatedApiMapper, InterfaceCaseMapper interfaceCaseMapper,
-                               InterfaceCaseService interfaceCaseService, CommonMessageService commonMessageService,
-                               InterfaceService interfaceService, MacInterfaceService macInterfaceService,
-                               MacService macService,ProjectService projectService,RouteService routeService,
-                               InterfaceOperationService interfaceOperationService,MockLogService mockLogService,
-                               RelatedDataService relatedDataService) {
-        super(relatedDataService,relatedApiMapper, interfaceCaseMapper, interfaceCaseService, commonMessageService, interfaceService,
-                macInterfaceService, macService,interfaceOperationService,mockLogService);
-        this.projectService = projectService;
-        this.routeService = routeService;
-        this.interfaceService = interfaceService;
-        this.interfaceOperationService = interfaceOperationService;
-    }
+//    private final ProjectService projectService;
+//
+//    private final RouteService routeService;
+//
+//    private final InterfaceService interfaceService;
+//
+//    private final InterfaceOperationService interfaceOperationService;
+//
+//
+//    public HttpMockServiceImpl(RelatedApiMapper relatedApiMapper, InterfaceCaseMapper interfaceCaseMapper,
+//                               InterfaceCaseService interfaceCaseService, CommonMessageService commonMessageService,
+//                               InterfaceService interfaceService, MacInterfaceService macInterfaceService,
+//                               MacService macService, ProjectService projectService, RouteService routeService,
+//                               InterfaceOperationService interfaceOperationService, MockLogService mockLogService,
+//                               RelatedDataService relatedDataService) {
+//        super(relatedDataService,relatedApiMapper, interfaceCaseMapper, interfaceCaseService, commonMessageService, interfaceService,
+//                macInterfaceService, macService,interfaceOperationService,mockLogService);
+//        this.projectService = projectService;
+//        this.routeService = routeService;
+//        this.interfaceService = interfaceService;
+//        this.interfaceOperationService = interfaceOperationService;
+//    }
 
     @Override
     public MockResponse mock(UrlEntity urlEntity, Map<String, String> headers, String body) {

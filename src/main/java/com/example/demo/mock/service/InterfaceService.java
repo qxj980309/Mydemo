@@ -1,9 +1,11 @@
 package com.example.demo.mock.service;
 
 import com.example.demo.mock.entity.po.InterfacePO;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public interface InterfaceService {
     /*
     * 通过url 和 txCode 匹配接口

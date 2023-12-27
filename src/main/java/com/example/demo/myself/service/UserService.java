@@ -1,8 +1,8 @@
-package com.example.demo.service;
+package com.example.demo.myself.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.example.demo.common.result.Result;
-import com.example.demo.entity.User;
+import com.example.demo.myself.common.result.Result;
+import com.example.demo.myself.entity.User;
 import org.springframework.stereotype.Repository;
 
 @Repository

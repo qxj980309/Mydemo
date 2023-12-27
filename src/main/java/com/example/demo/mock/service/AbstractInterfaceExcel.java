@@ -1,6 +1,6 @@
 package com.example.demo.mock.service;
 
-import com.example.demo.common.exception.BizException;
+import com.example.demo.myself.common.exception.BizException;
 import com.example.demo.mock.common.enums.IsNeededEnum;
 import com.example.demo.mock.common.util.DateUtil;
 import com.example.demo.mock.common.util.RegexUtil;

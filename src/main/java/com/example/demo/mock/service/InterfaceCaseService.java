@@ -1,16 +1,18 @@
 package com.example.demo.mock.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.example.demo.common.result.Result;
+import com.example.demo.myself.common.result.Result;
 import com.example.demo.mock.entity.po.DynamicMsgPO;
 import com.example.demo.mock.entity.po.InterfaceCasePO;
 import com.example.demo.mock.entity.vo.InterfaceCaseVO;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 /*
 * 接口案例(tb_interface_case)服务接口
 * */
+@Repository
 public interface InterfaceCaseService {
     /*
     * 通过ID查询单条数据

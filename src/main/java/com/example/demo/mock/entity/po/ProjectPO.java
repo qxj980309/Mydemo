@@ -15,7 +15,7 @@ import javax.validation.constraints.NotBlank;
 @TableName(value = "td_project",autoResultMap = true)
 public class ProjectPO {
     @ApiModelProperty(value = "逻辑主键")
-    @TableField(value = "id")
+//    @TableField(value = "id")
     private Long id;
 
     @ApiModelProperty(value ="项目名称")

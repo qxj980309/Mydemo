@@ -1,10 +1,12 @@
 package com.example.demo.mock.service;
 
 import com.example.demo.mock.entity.po.ExcelPO;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Map;
 
+@Repository
 public interface InterfaceExcelService<T> {
     /*
     *  添加数据

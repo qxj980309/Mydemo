@@ -1,8 +1,10 @@
 package com.example.demo.mock.common.exception;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
+@EqualsAndHashCode(callSuper = false)
 public class CustomResponseException extends RuntimeException {
     private String code;
     private String datatype;

@@ -1,4 +1,4 @@
-package com.example.demo.common.exception;
+package com.example.demo.myself.common.exception;
 
 import java.io.Serializable;
 

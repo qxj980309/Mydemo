@@ -1,15 +1,13 @@
 package com.example.demo.mock.controller;
 
-import com.example.demo.common.result.Result;
+import com.example.demo.myself.common.result.Result;
 import com.example.demo.mock.entity.vo.ProjectCountVo;
 import com.example.demo.mock.service.HomeService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController

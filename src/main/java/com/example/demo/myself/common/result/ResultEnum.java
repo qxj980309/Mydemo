@@ -1,4 +1,4 @@
-package com.example.demo.common.result;
+package com.example.demo.myself.common.result;
 
 public interface   ResultEnum {
 

@@ -1,12 +1,12 @@
-package com.example.demo.common.Util;
+package com.example.demo.myself.common.Util;
 
 import cn.hutool.core.date.DateUtil;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.example.demo.entity.User;
-import com.example.demo.service.UserService;
+import com.example.demo.myself.entity.User;
+import com.example.demo.myself.service.UserService;
 import org.springframework.beans.factory.annotation.Value;
 import javax.annotation.Resource;
 import java.util.Date;
@@ -27,7 +27,7 @@ public class JWTUtil {
      * @return
      */
     public String createToken(User user){
-        return JWT.create().withAudience(user.getUserid().toString()) // 设置载荷
+        return JWT.create().withAudience(user.getUserId().toString()) // 设置载荷
 //                .withExpiresAt(DateUtil.offsetHour(new Date(), 24)) // 设置签名过期的时间:24小时后
                 .withExpiresAt(DateUtil.offsetSecond(new Date(), expireOffset)) // 设置签名过期的时间
                 .sign(Algorithm.HMAC256(user.getPassword())); // 签名 Signature

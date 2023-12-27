@@ -10,60 +10,65 @@ import com.example.demo.mock.common.exception.CustomResponseException;
 import com.example.demo.mock.common.util.*;
 import com.example.demo.mock.entity.po.*;
 import com.example.demo.mock.mapper.InterfaceCaseMapper;
-import com.example.demo.mock.mapper.RelatedApiMappeer;
+import com.example.demo.mock.mapper.RelatedApiMapper;
 import com.example.demo.mock.service.*;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Service
+@Transactional
 public class CommonMockServiceImpl implements CommonMockService {
     private static final Logger log = LoggerFactory.getLogger(CommonMockServiceImpl.class);
-
+    @Resource
     private static MacInterfaceService macInterfaceService;
-
+    @Resource
     private static MacService macService;
+    @Resource
+    private  RelatedDataService relatedDataService;
+    @Resource
+    private  RelatedApiMapper relatedApiMapper;
+    @Resource
+    private  InterfaceCaseMapper interfaceCaseMapper;
+    @Resource
+    private  InterfaceCaseService interfaceCaseService;
+    @Resource
+    private  CommonMessageService commonMessageService;
+    @Resource
+    private  InterfaceService interfaceService;
+    @Resource
+    private  MockLogService mockLogService;
+    @Resource
+    private  InterfaceOperationService interfaceOperationService;
+    @Resource
+    private  HttpStatus CONFIG_ERROR = HttpStatus.PRECONDITION_FAILED;
 
-    private final RelatedDataService relatedDataService;
-
-    private final RelatedApiMappeer relatedApiMapper;
-
-    private final InterfaceCaseMapper interfaceCaseMapper;
-
-    private final InterfaceCaseService interfaceCaseService;
-
-    private final CommonMessageService commonMessageService;
-
-    private final InterfaceService interfaceService;
-
-    private final MockLogService mockLogService;
-
-    private final InterfaceOperationService interfaceOperationService;
-
-    private final HttpStatus CONFIG_ERROR = HttpStatus.PRECONDITION_FAILED;
-
-    public CommonMockServiceImpl(RelatedDataService relatedDataService,RelatedApiMappeer relatedApiMapper, InterfaceCaseMapper interfaceCaseMapper,
-                                 InterfaceCaseService interfaceCaseService,CommonMessageService commonMessageService,
-                                 InterfaceService interfaceService,MacInterfaceService macInterfaceService,
-                                 MacService macService,InterfaceOperationService interfaceOperationService,
-                                 MockLogService mockLogService){
-        this.relatedApiMapper = relatedApiMapper;
-        this.interfaceCaseMapper = interfaceCaseMapper;
-        this.interfaceCaseService = interfaceCaseService;
-        this.commonMessageService = commonMessageService;
-        this.interfaceService = interfaceService;
-        this.macInterfaceService = macInterfaceService;
-        this.macService = macService;
-        this.interfaceOperationService =interfaceOperationService;
-        this.mockLogService = mockLogService;
-        this.relatedDataService =relatedDataService;
-    }
+//    public CommonMockServiceImpl(RelatedDataService relatedDataService,RelatedApiMapper relatedApiMapper, InterfaceCaseMapper interfaceCaseMapper,
+//                                 InterfaceCaseService interfaceCaseService,CommonMessageService commonMessageService,
+//                                 InterfaceService interfaceService,MacInterfaceService macInterfaceService,
+//                                 MacService macService,InterfaceOperationService interfaceOperationService,
+//                                 MockLogService mockLogService){
+//        this.relatedApiMapper = relatedApiMapper;
+//        this.interfaceCaseMapper = interfaceCaseMapper;
+//        this.interfaceCaseService = interfaceCaseService;
+//        this.commonMessageService = commonMessageService;
+//        this.interfaceService = interfaceService;
+//        this.macInterfaceService = macInterfaceService;
+//        this.macService = macService;
+//        this.interfaceOperationService =interfaceOperationService;
+//        this.mockLogService = mockLogService;
+//        this.relatedDataService =relatedDataService;
+//    }
 
     public InterfacePO selectInterface(Long projectId,String txCode,String url){
         //通过路由定接口

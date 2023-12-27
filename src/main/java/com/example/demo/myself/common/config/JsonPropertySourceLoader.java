@@ -1,16 +1,4 @@
-package com.example.demo.common.config;
-
-import org.springframework.boot.env.PropertySourceLoader;
-import org.springframework.core.env.MapPropertySource;
-import org.springframework.core.env.PropertySource;
-import org.springframework.core.io.Resource;
-import org.springframework.util.StreamUtils;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
-import java.util.List;
-import java.util.Map;
+package com.example.demo.myself.common.config;
 
 public class JsonPropertySourceLoader  {
 //    implements

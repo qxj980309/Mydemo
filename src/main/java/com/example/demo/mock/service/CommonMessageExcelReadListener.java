@@ -5,7 +5,7 @@ import com.alibaba.excel.context.AnalysisContext;
 import com.alibaba.excel.event.AnalysisEventListener;
 import com.alibaba.excel.read.metadata.holder.xlsx.XlsxReadSheetHolder;
 import com.alibaba.fastjson.JSON;
-import com.example.demo.common.exception.BizException;
+import com.example.demo.myself.common.exception.BizException;
 import com.example.demo.mock.entity.po.ExcelPO;
 import com.example.demo.mock.service.impl.CommonMessageExcel;
 import org.slf4j.Logger;

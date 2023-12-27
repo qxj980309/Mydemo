@@ -1,9 +1,9 @@
 package com.example.demo;
 
 import com.alibaba.fastjson.JSONObject;
-import com.example.demo.common.result.Result;
-import com.example.demo.entity.User;
-import com.example.demo.service.UserService;
+import com.example.demo.myself.common.result.Result;
+import com.example.demo.myself.entity.User;
+import com.example.demo.myself.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -17,8 +17,8 @@ public class UserTest {
     @Test
     public void main() {
         User user = new User();
-        user.setUserid(8);
-        user.setUsername("二丫");
+        user.setUserId(8);
+        user.setUserName("二丫");
         user.setPassword("123456");
 //        userServiceIml.add(user);
         Result<User> find = userServiceIml.finaAll();

@@ -1,7 +1,7 @@
 package com.example.demo.mock.common.util;
 
 import ch.qos.logback.core.encoder.ByteArrayUtil;
-import com.example.demo.common.exception.BizException;
+import com.example.demo.myself.common.exception.BizException;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;

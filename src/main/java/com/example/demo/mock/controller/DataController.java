@@ -1,7 +1,7 @@
 package com.example.demo.mock.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.example.demo.common.result.Result;
+import com.example.demo.myself.common.result.Result;
 import com.example.demo.mock.entity.vo.DataVo;
 import com.example.demo.mock.entity.vo.SearchVo;
 import com.example.demo.mock.service.DataService;

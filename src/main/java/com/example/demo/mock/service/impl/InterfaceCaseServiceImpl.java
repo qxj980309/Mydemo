@@ -5,5 +5,5 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
-public class RouteServiceImpl {
+public class InterfaceCaseServiceImpl {
 }

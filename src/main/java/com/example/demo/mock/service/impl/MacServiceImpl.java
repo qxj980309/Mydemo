@@ -1,15 +1,15 @@
 package com.example.demo.mock.service.impl;
 
-import com.example.demo.mock.entity.po.RoutePO;
-import com.example.demo.mock.service.RouteService;
+import com.example.demo.mock.entity.po.MacPO;
+import com.example.demo.mock.service.MacService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
-public class RouteServiceImpl implements RouteService {
+public class MacServiceImpl implements MacService {
     @Override
-    public RoutePO selectByUrl(Long projectId, String url) {
+    public MacPO selectById(Long macId) {
         return null;
     }
 }

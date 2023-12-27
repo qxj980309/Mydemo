@@ -31,49 +31,27 @@ import java.util.Map;
 public class HttpMockServiceImpl extends CommonMockServiceImpl implements HttpMockService {
     private static final Logger log = LoggerFactory.getLogger(HttpMockServiceImpl.class);
 
-//    public HttpMockServiceImpl(RelatedDataService relatedDataService, RelatedApiMapper relatedApiMapper,
-//                               InterfaceCaseMapper interfaceCaseMapper, InterfaceCaseService interfaceCaseService,
-//                               CommonMessageService commonMessageService, InterfaceService interfaceService,
-//                               MacInterfaceService macInterfaceService, MacService macService,
-//                               InterfaceOperationService interfaceOperationService, MockLogService mockLogService) {
-//        super(relatedDataService, relatedApiMapper, interfaceCaseMapper, interfaceCaseService, commonMessageService,
-//                interfaceService, macInterfaceService, macService, interfaceOperationService, mockLogService);
-//    }
-    @Resource
-    private  ProjectService projectService;
-    @Resource
-    private  RouteService routeService;
-    @Resource
-    private  InterfaceService interfaceService;
+    private final ProjectService projectService;
 
-    @Resource
-    private RelatedDataService relatedDataService;
+    private final RouteService routeService;
 
-    @Resource
-    private InterfaceOperationService interfaceOperationService;
+    private final InterfaceService interfaceService;
 
-//    private final ProjectService projectService;
-//
-//    private final RouteService routeService;
-//
-//    private final InterfaceService interfaceService;
-//
-//    private final InterfaceOperationService interfaceOperationService;
-//
-//
-//    public HttpMockServiceImpl(RelatedApiMapper relatedApiMapper, InterfaceCaseMapper interfaceCaseMapper,
-//                               InterfaceCaseService interfaceCaseService, CommonMessageService commonMessageService,
-//                               InterfaceService interfaceService, MacInterfaceService macInterfaceService,
-//                               MacService macService, ProjectService projectService, RouteService routeService,
-//                               InterfaceOperationService interfaceOperationService, MockLogService mockLogService,
-//                               RelatedDataService relatedDataService) {
-//        super(relatedDataService,relatedApiMapper, interfaceCaseMapper, interfaceCaseService, commonMessageService, interfaceService,
-//                macInterfaceService, macService,interfaceOperationService,mockLogService);
-//        this.projectService = projectService;
-//        this.routeService = routeService;
-//        this.interfaceService = interfaceService;
-//        this.interfaceOperationService = interfaceOperationService;
-//    }
+    private final InterfaceOperationService interfaceOperationService;
+
+    public HttpMockServiceImpl(RelatedApiMapper relatedApiMapper, InterfaceCaseMapper interfaceCaseMapper,
+                               InterfaceCaseService interfaceCaseService, CommonMessageService commonMessageService,
+                               InterfaceService interfaceService, MacInterfaceService macInterfaceService,
+                               MacService macService, ProjectService projectService, RouteService routeService,
+                               InterfaceOperationService interfaceOperationService, MockLogService mockLogService,
+                               RelatedDataService relatedDataService) {
+        super(relatedDataService,relatedApiMapper, interfaceCaseMapper, interfaceCaseService, commonMessageService, interfaceService,
+                macInterfaceService, macService,interfaceOperationService,mockLogService);
+        this.projectService = projectService;
+        this.routeService = routeService;
+        this.interfaceService = interfaceService;
+        this.interfaceOperationService = interfaceOperationService;
+    }
 
     @Override
     public MockResponse mock(UrlEntity urlEntity, Map<String, String> headers, String body) {

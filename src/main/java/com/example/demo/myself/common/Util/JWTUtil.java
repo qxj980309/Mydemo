@@ -8,12 +8,15 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import com.example.demo.myself.entity.User;
 import com.example.demo.myself.service.UserService;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
 import javax.annotation.Resource;
 import java.util.Date;
 
 /**
  * jwt工具类
  */
+@Component
 public class JWTUtil {
     @Resource
     UserService userService;

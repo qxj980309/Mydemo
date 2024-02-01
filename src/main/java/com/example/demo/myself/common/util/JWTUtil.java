@@ -1,4 +1,4 @@
-package com.example.demo.myself.common.Util;
+package com.example.demo.myself.common.util;
 
 import cn.hutool.core.date.DateUtil;
 import com.auth0.jwt.JWT;

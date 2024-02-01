@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import io.swagger.annotations.Api;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import com.example.demo.myself.common.Util.JWTUtil;
+import com.example.demo.myself.common.util.JWTUtil;
 
 @Api(tags = "用户接口类")
 @RestController

@@ -24,7 +24,6 @@ public class User implements Serializable{
      * 用户 id
      */
     @TableId(type = IdType.AUTO)
-    @TableField(value = "user_id")
 //    @NotNull(message = "id不能为空")
     private Integer userId;
     /**

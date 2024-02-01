@@ -2,19 +2,11 @@ package com.example.demo;
 
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.XML;
+import org.apache.commons.collections4.CollectionUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import java.math.BigInteger;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.YearMonth;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.TemporalAdjusters;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Random;
+import java.util.*;
 
 @SpringBootTest
 class DemoApplicationTests {
@@ -173,6 +165,34 @@ class DemoApplicationTests {
 //        } catch (Exception e) {
 //            e.printStackTrace();
 //        }
+    }
+    @Test
+    void test4(){
+
+        List<Integer> list = new ArrayList<>();
+        list.add(2);
+        list.add(1);
+        list.add(3);
+
+        List<Integer> list2 = new ArrayList<>();
+        list2.add(2);
+        list2.add(4);
+
+        //获取并集
+        Collection<Integer> unionList = CollectionUtils.union(list, list2);
+        System.out.println(unionList);
+
+        //获取交集
+        Collection<Integer> intersectionList = CollectionUtils.intersection(list, list2);
+        System.out.println(intersectionList);
+
+        //获取交集的补集
+        Collection<Integer> disjunctionList = CollectionUtils.disjunction(list, list2);
+        System.out.println(disjunctionList);
+
+        //获取差集
+        Collection<Integer> subtractList = CollectionUtils.subtract(list, list2);
+        System.out.println(subtractList);
     }
 
 }

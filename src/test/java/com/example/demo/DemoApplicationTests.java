@@ -5,7 +5,12 @@ import cn.hutool.json.XML;
 import org.apache.commons.collections4.CollectionUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.util.Assert;
+
 import java.math.BigInteger;
+import java.time.LocalDate;
+import java.time.YearMonth;
+import java.time.ZoneId;
 import java.util.*;
 
 @SpringBootTest
@@ -132,16 +137,17 @@ class DemoApplicationTests {
         /*
         * 方法一：根据年月获取月份对应第一天和最后一天
         * */
-//        String input = "2023-10";
-//        YearMonth yearMonth = YearMonth.parse(input);
-//        // 获取当月的第一天
-//        LocalDate firstDayOfMonth = yearMonth.atDay(1);
-//        System.out.println("当月的第一天：" + firstDayOfMonth);
-//        // 获取当月的最后一天
-//        LocalDate lastDayOfMonth = yearMonth.atEndOfMonth();
-//        System.out.println("当月的最后一天：" + lastDayOfMonth);
-//        //localDate 转 Date
-//        Date date = Date.from(lastDayOfMonth.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        String input = "2023-10";
+        YearMonth yearMonth = YearMonth.parse(input);
+        // 获取当月的第一天
+        LocalDate firstDayOfMonth = yearMonth.atDay(1);
+        System.out.println("当月的第一天：" + firstDayOfMonth);
+        // 获取当月的最后一天
+        LocalDate lastDayOfMonth = yearMonth.atEndOfMonth();
+        System.out.println("当月的最后一天：" + lastDayOfMonth);
+        //localDate 转 Date
+        Date date = Date.from(lastDayOfMonth.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        System.out.println("date：" + date);
 
         /*
          * 方法二：根据年月获取月份对应第一天和最后一天
@@ -193,6 +199,19 @@ class DemoApplicationTests {
         //获取差集
         Collection<Integer> subtractList = CollectionUtils.subtract(list, list2);
         System.out.println(subtractList);
+    }
+
+    @Test
+    void test5(){
+//        Integer integer1 = new Integer(128);
+//
+//        Objects.requireNonNull(integer1);
+//        Objects.requireNonNull(integer1, "参数不能为空");
+//        Objects.requireNonNull(integer1, () -> "参数不能为空");
+
+        List<String> list = null;
+        Assert.isTrue(CollectionUtils.isNotEmpty(list), "list不能为空");
+        Assert.isTrue(CollectionUtils.isNotEmpty(list), () -> "list不能为空");
     }
 
 }

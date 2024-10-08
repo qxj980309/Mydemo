@@ -1,0 +1,26 @@
+2024-09-27 14:43:42.338 [main] INFO  com.example.demo.DemoApplicationTests - Starting DemoApplicationTests on LAPTOP-9DPVOP9K with PID 23080 (started by Q in D:\IdeaProjects\demo)
+2024-09-27 14:43:42.339 [main] INFO  com.example.demo.DemoApplicationTests - No active profile set, falling back to default profiles: default
+2024-09-27 14:43:43.392 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode!
+2024-09-27 14:43:43.394 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data repositories in DEFAULT mode.
+2024-09-27 14:43:43.435 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 28ms. Found 0 repository interfaces.
+2024-09-27 14:43:43.449 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode!
+2024-09-27 14:43:43.451 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data repositories in DEFAULT mode.
+2024-09-27 14:43:43.465 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 5ms. Found 0 repository interfaces.
+2024-09-27 14:43:43.971 [main] INFO  org.springframework.context.support.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$6479f62f] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2024-09-27 14:43:45.816 [main] INFO  org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor - Initializing ExecutorService 'applicationTaskExecutor'
+2024-09-27 14:43:47.848 [main] INFO  com.example.demo.DemoApplicationTests - Started DemoApplicationTests in 6.081 seconds (JVM running for 7.422)
+2024-09-27 14:43:48.394 [Thread-3] INFO  org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor - Shutting down ExecutorService 'applicationTaskExecutor'
+2024-09-27 14:43:48.398 [Thread-3] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-0} closing ...
+2024-09-27 14:47:03.120 [main] INFO  com.example.demo.DemoApplicationTests - Starting DemoApplicationTests on LAPTOP-9DPVOP9K with PID 24772 (started by Q in D:\IdeaProjects\demo)
+2024-09-27 14:47:03.120 [main] INFO  com.example.demo.DemoApplicationTests - No active profile set, falling back to default profiles: default
+2024-09-27 14:47:04.165 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode!
+2024-09-27 14:47:04.170 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data repositories in DEFAULT mode.
+2024-09-27 14:47:04.199 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 22ms. Found 0 repository interfaces.
+2024-09-27 14:47:04.210 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode!
+2024-09-27 14:47:04.212 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data repositories in DEFAULT mode.
+2024-09-27 14:47:04.227 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 5ms. Found 0 repository interfaces.
+2024-09-27 14:47:04.732 [main] INFO  org.springframework.context.support.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$7b680f25] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2024-09-27 14:47:06.569 [main] INFO  org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor - Initializing ExecutorService 'applicationTaskExecutor'
+2024-09-27 14:47:08.078 [main] INFO  com.example.demo.DemoApplicationTests - Started DemoApplicationTests in 5.484 seconds (JVM running for 6.979)
+2024-09-27 14:47:08.304 [Thread-3] INFO  org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor - Shutting down ExecutorService 'applicationTaskExecutor'
+2024-09-27 14:47:08.306 [Thread-3] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-0} closing ...

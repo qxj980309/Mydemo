@@ -8,10 +8,15 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.util.Assert;
 
 import java.math.BigInteger;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.YearMonth;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @SpringBootTest
 class DemoApplicationTests {
@@ -212,6 +217,83 @@ class DemoApplicationTests {
         List<String> list = null;
         Assert.isTrue(CollectionUtils.isNotEmpty(list), "list不能为空");
         Assert.isTrue(CollectionUtils.isNotEmpty(list), () -> "list不能为空");
+    }
+
+    @Test
+    void test6(){
+        String data = "1,2,3,4,5,6,7,8,9,10,11,12,13,14,15";
+
+        String[] array = data.split(",");
+
+        String lastFive1 = Arrays.stream(array)
+                .skip(array.length - 5) // 跳过前面所有元素，保留最后5个
+                .collect(Collectors.joining(","));
+        System.out.println(lastFive1);
+    }
+
+    @Test
+    void test7() throws ParseException {
+        List<String> retList = new ArrayList<>();
+        //todo 前端传过来的开始时间
+        Date start = new SimpleDateFormat("yyyy-MM-dd hh:mm").parse("2024-07-04 09:27");
+        //todo 前端传过来的结束时间
+        Date end = new SimpleDateFormat("yyyy-MM-dd hh:mm").parse("2024-07-04 10:07");
+        //todo 获取时间戳 start1 开始   end1 结束  end2 结束前一分钟
+        Date start1 = new Date(start.getTime());
+        Date end1 = new Date(end.getTime());
+
+//        Date end2 = new Date(end.getTime() - 1 * 6000L);
+//        System.out.println(start1);
+//        System.out.println(end1);
+//        System.out.println(end2);
+
+        //todo 把获取的时间戳转成yyyyMMddHHmm的string
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmm");
+//        String start2 = dateFormat.format(start1);
+//        System.out.println(start2);
+//
+//        String end3 = dateFormat.format(end1);
+//        System.out.println(end3);
+
+        //todo  问题 我怎么利用开始和结束时间 循环这个期间内每分钟的时间，最终转换成 yyyyMMddHHmm的string
+        //todo  只在开始和结束的这个时间范围内处理
+        long diffIn = Math.abs(start.getTime() - end.getTime());
+        System.out.println(diffIn);
+        long diffInMinutes = (diffIn / (1000 * 60)) + 1; // 加1是因为需要包括开始时间
+        System.out.println(diffInMinutes);
+        long diffInMinutes1 = (diffIn / 60000L) + 1; // 加1是因为需要包括开始时间
+        System.out.println(diffInMinutes1);
+        for (int i = 0; i < diffInMinutes; i++) {
+            Date currentMinute = new Date(start.getTime() + (i * 60000));
+            String formattedDate = dateFormat.format(currentMinute);
+            System.out.println(formattedDate);
+        }
+
+        // todo 之前是直接取当前时间，然后往前推40分钟，取每分钟换成 yyyyMMddHHmm的string，add到list里面，
+        //  去数据库查 以 list 里面的40个 String的值为条件，现在是自己选时间段
+//        int period = 40;
+//        Date now = new Date();
+//        for (int i = period -1; i >= 0; i--) {
+//            Date past = new Date(now.getTime() - i * 6000L);
+//            String pastStr = dateFormat.format(past);
+//            retList.add(pastStr);
+//        }
+
+    }
+
+    @Test
+    void  test8() throws ParseException {
+        LocalDateTime localDateTime = LocalDateTime.now();
+//        String dateString = localDateTime.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+//        int batchNum = localDateTime.getHour();
+//        for (int i = 1;i<=batchNum;i++){
+//            String batchId = String.format("B%s%02d00",dateString,i);
+//            System.out.println(batchId);
+//        }
+        String yesterday = localDateTime.minusDays(1).format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+        String hour = localDateTime.format(DateTimeFormatter.ofPattern("HH"));
+        System.out.println("yesterday------------"+yesterday);
+        System.out.println("hour---------------"+hour);
     }
 
 }

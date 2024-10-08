@@ -53,6 +53,12 @@ spring:
          #   log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
         #开启驼峰映射
         #map-underscore-to-camel-case: false
+    rabbitmq:
+        host: 127.0.0.1 # 主机名
+        port: 5672 # 端口
+        virtual-host: / # 虚拟主机
+        username: guest # 用户名
+        password: guest # 密码
     # sql日志的打印 日志级别可以是TRACE、DEBUG、INFO、WARN、ERROR、FATAL、OFF中的一种
     #日志生成方式效果配置文件
     #默认该目录下会生成spring.log logging.file.path 和 logging.file.name 2选1，如果都配置，以后者为准
@@ -66,3 +72,5 @@ spring:
 jwt:
     expire:
         offset: 30
+jasypt:
+    en
